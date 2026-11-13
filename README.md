@@ -10,13 +10,13 @@ Open `index.html` locally, or add `?preview=1` to skip the 18+ gate while you ch
 
 ## How to update (no code)
 
-You can change the bio, banner, links, Top 3, pinned or hidden bots, and World Books without touching HTML.
+You can change the bio, banner, links, Top 3, pinned or hidden bots, Series, and World Books without touching HTML.
 
 ### 1. Edit in Studio
 
 1. Open **RaonLee-Studio.html**.
 2. In the sidebar, open **More tools → Follower Page**.
-3. Fill in the forms. Upload a banner or World Book covers if you want (they’re resized to WebP for you).
+3. Fill in the forms. Use the Series tab for bot groups, and the World Books tab only for published lore books. Upload a banner or covers if you want (they’re resized to WebP for you).
 4. Watch the live preview on the right.
 5. Click **Export site.json + images (zip)**. Your settings are also saved in this browser.
 
@@ -25,7 +25,7 @@ You can change the bio, banner, links, Top 3, pinned or hidden bots, and World B
 1. Unzip the file. You should see `site.json`, and maybe an `assets` folder (banner and covers).
 2. Open [github.com/raonlee0448/raonlee0448.github.io](https://github.com/raonlee0448/raonlee0448.github.io).
 3. Click **Add file → Upload files**.
-4. Drop `site.json` **and** the `assets` folder (so `assets/creator-banner.webp` and `assets/worlds/…` keep their folders).
+4. Drop `site.json` **and** the `assets` folder (so `assets/creator-banner.webp`, `assets/series/…`, and `assets/worldbooks/…` keep their folders).
 5. Click **Commit changes**.
 
 The same link keeps working. The new version is usually live in about a minute. Refresh once if you still see the old bio.
@@ -41,7 +41,7 @@ If you’d rather not click around GitHub, send me the zip and I’ll upload it 
 | File | Role |
 | --- | --- |
 | `index.html` | The public page (catalog and logos are built in). |
-| `site.json` | Editable content: bio, banner path, links, Top 3, pinned/hidden bots, World Books. |
+| `site.json` | Editable content: bio, banner path, links, Top 3, pinned/hidden bots, Series, and World Books. |
 | `assets/theme/` | Background, chibis, stickers, cracked-mask emblem. |
 | `assets/fonts/` | Neon / flyer / body fonts, so the page still looks right offline. |
 | `assets/raonlee-logo.svg` | Keyhole Heart logo (coloured toxic green on the page). |
@@ -53,7 +53,8 @@ The page always has a fallback copy of `site.json` inside `index.html`. After a 
 
 - Only **public** bots are on this page. Private ones never appear, even if someone guesses an id.
 - Top 3 defaults to the three highest lead-platform interaction counts (Farm R, Lian Otonashi, Thaelar right now). Leave the Top 3 picker empty in Studio to keep it automatic, or pick three bots yourself.
-- World Books listed here are your real series, marked “coming soon” until you add a link. Hollowmere is not included.
+- **Series** are groups of bots (My Stepbros, Kappa Sigma Chi, and the rest), each kept in its own house. Membership is by title match only, and one bot never belongs to two series.
+- **World Books** are published lore books only. Until you publish one, that section shows “World Books coming soon”. Hollowmere is not included.
 - Counts are each platform’s own lifetime total, never a cross-site sum.
 - The 18+ gate is remembered in the browser (`raonlee-followers-18`). Bypass it with `?preview=1` or `?shot=1`.
 - Motion (fog, neon flicker, glints) turns off when the browser asks for reduced motion.

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "name": "RaonLee",
   "bio": "Dark romance, yandere, and horror character bots — devotion, danger, and stories for grown-ups, written from Velvet Haven.",
   "banner": "",
@@ -23,331 +23,161 @@
   "top3": [],
   "pinned": [],
   "hidden": [],
-  "worlds": [
-    {
-      "id": "night-over",
-      "name": "Night Over",
-      "tagline": "",
-      "description": "A universe still being bound. The World Book will open here when RaonLee is ready to share it.",
-      "cover": "",
-      "status": "soon",
-      "href": "",
-      "cast": []
-    },
+  "series": [
     {
       "id": "my-stepbros",
       "name": "My Stepbros",
-      "tagline": "",
       "description": "Stepbrothers, summer houses, and the kind of family tension you weren’t supposed to want.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1782555170248555127_a5a57865e7090f4c.jpg",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "spendingsummerwithmystepbrother",
-          "name": "Spending summer with my step-brother"
-        },
-        {
-          "id": "derekyourgymratstepbrother",
-          "name": "Derek, your gymrat step-brother"
-        },
-        {
-          "id": "bulliedbystepbrother",
-          "name": "Bullied by Step Brother"
-        },
-        {
-          "id": "judgedbyyourstepbro",
-          "name": "Judged by your stepbro"
-        },
-        {
-          "id": "derekyourgymratstepbro",
-          "name": "Derek, your gymrat step-bro"
-        },
-        {
-          "id": "inkedbyyourstepbrotherchoso",
-          "name": "Inked by your step-brother, Choso"
-        },
-        {
-          "id": "spendingsummerwithajerkstepbrother",
-          "name": "Spending summer with a jerk step-brother"
-        },
-        {
-          "id": "stepbrotherstemptation",
-          "name": "Stepbrother’s Temptation"
-        }
-      ]
+      "bots": [
+        "spendingsummerwithmystepbrother",
+        "derekyourgymratstepbrother",
+        "bulliedbystepbrother",
+        "judgedbyyourstepbro",
+        "derekyourgymratstepbro",
+        "inkedbyyourstepbrotherchoso",
+        "bulliedbyyourstepbrother",
+        "spendingsummerwithajerkstepbrother",
+        "stepbrotherstemptation",
+        "spendingsummerwithjerkstepbro",
+        "spendingsummerwithmyjerkstepbrother",
+        "inkedbyyourstepbrother",
+        "spendingsummerwithstepbro"
+      ],
+      "hidden": false
     },
     {
       "id": "kappa-sigma-chi",
       "name": "Kappa Sigma Chi",
-      "tagline": "",
       "description": "Five brothers of the house. Loyalty, rivalry, and the bonds that keep them.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1764974212398347457_203a7e365751c3e3.jpg",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "kappasigmachileokincaid",
-          "name": "Leo Kincaid"
-        },
-        {
-          "id": "kappasigmachijaxdalton",
-          "name": "Jax Dalton"
-        },
-        {
-          "id": "kappasigmachichaserourke",
-          "name": "Chase Rourke"
-        },
-        {
-          "id": "kappasigmachifinnradcliffe",
-          "name": "Finn Radcliffe"
-        },
-        {
-          "id": "kappasigmachibrodymorrison",
-          "name": "Brody Morrison"
-        }
-      ]
+      "bots": [
+        "kappasigmachileokincaid",
+        "kappasigmachijaxdalton",
+        "kappasigmachichaserourke",
+        "kappasigmachifinnradcliffe",
+        "kappasigmachibrodymorrison"
+      ],
+      "hidden": false
     },
     {
       "id": "seven-sins",
       "name": "7 SINS",
-      "tagline": "",
       "description": "The seven deadly sins, walking among you — hungry, proud, and rarely sorry.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/dbe61db2-4477-442c-8fcb-7a11cbca2204",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "7sinsazazelinjapan",
-          "name": "AZAZEL IN JAPAN"
-        },
-        {
-          "id": "7sinsbelethdecidestovisit",
-          "name": "Beleth decides to Visit"
-        },
-        {
-          "id": "7sinsbeelzebubownsarestaurant",
-          "name": "Beelzebub owns a restaurant??"
-        },
-        {
-          "id": "7sinsbelphegorisunabletosleep",
-          "name": "Belphegor is unable to sleep"
-        },
-        {
-          "id": "7sinsasmodeushiresacriticnanny",
-          "name": "Asmodeus hires a critic nanny"
-        },
-        {
-          "id": "7sinsmalphasinlove",
-          "name": "Malphas in Love"
-        },
-        {
-          "id": "7sinssabotagedbymammon",
-          "name": "Sabotaged by Mammon"
-        }
-      ]
+      "bots": [
+        "7sinsazazelinjapan",
+        "7sinsbelethdecidestovisit",
+        "7sinsbeelzebubownsarestaurant",
+        "7sinsbelphegorisunabletosleep",
+        "7sinsasmodeushiresacriticnanny",
+        "7sinsmalphasinlove",
+        "7sinssabotagedbymammon"
+      ],
+      "hidden": false
     },
     {
       "id": "marvel-au",
       "name": "Marvel AU",
-      "tagline": "",
       "description": "A darker Marvel-inspired gallery of RaonLee originals.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/45feffb1-2828-4a74-a3f2-84082781701e",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "marvelautoxin",
-          "name": "Toxin"
-        },
-        {
-          "id": "marvelaudrfrost",
-          "name": "Dr Frost"
-        },
-        {
-          "id": "marvelauthunderstrike",
-          "name": "Thunderstrike"
-        },
-        {
-          "id": "marvelaudeadpool",
-          "name": "Deadpool"
-        },
-        {
-          "id": "marvelaureaper",
-          "name": "Reaper"
-        },
-        {
-          "id": "marvelauacid",
-          "name": "Acid"
-        },
-        {
-          "id": "marvelauskull",
-          "name": "Skull"
-        },
-        {
-          "id": "marvelaubloodsport",
-          "name": "Bloodsport"
-        }
-      ]
+      "bots": [
+        "marvelautoxin",
+        "marvelaudrfrost",
+        "marvelauthunderstrike",
+        "marvelaudeadpool",
+        "marvelaureaper",
+        "marvelauacid",
+        "marvelauskull",
+        "marvelaubloodsport",
+        "marvelauthorn",
+        "marvelauseriesprism",
+        "marvelauprism"
+      ],
+      "hidden": false
     },
     {
       "id": "venom-vice",
       "name": "Venom Vice",
-      "tagline": "",
       "description": "A shared series of dangerous appetites, vice, and the ones who indulge them.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1785889033869873235_7413861cd938f800.jpg",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "varkaunwantedkingvenomvice",
-          "name": "Unwanted King"
-        },
-        {
-          "id": "slicktentaclefvkedvenomviceseries",
-          "name": "Tentacle - Fvked"
-        },
-        {
-          "id": "strayhumiliationkinkvenomvice",
-          "name": "Humiliation Kink"
-        },
-        {
-          "id": "munchoralfixationvenomvice",
-          "name": "Oral Fixation"
-        },
-        {
-          "id": "greeddoubletroublevenomviceseries",
-          "name": "Double Trouble"
-        },
-        {
-          "id": "roanannoyingtwinbrothervenomviceseries",
-          "name": "Annoying Twin Brother"
-        },
-        {
-          "id": "webbrattamervenomviceseries",
-          "name": "Brat Tamer"
-        }
-      ]
+      "bots": [
+        "varkaunwantedkingvenomvice",
+        "slicktentaclefvkedvenomviceseries",
+        "strayhumiliationkinkvenomvice",
+        "munchoralfixationvenomvice",
+        "greeddoubletroublevenomviceseries",
+        "roanannoyingtwinbrothervenomviceseries",
+        "webbrattamervenomviceseries",
+        "varkaunwantedkingvenomviceseries"
+      ],
+      "hidden": false
     },
     {
       "id": "aoba-heights",
       "name": "Aoba Heights",
-      "tagline": "",
       "description": "The Hasegawa brothers of Aoba Heights, and those who live alongside them.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1772435471884723612_96b9f65a076420e9.jpg",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "aobaheightshasegawabrothers",
-          "name": "Hasegawa Brothers"
-        },
-        {
-          "id": "aobaheightsryotahasegawa",
-          "name": "Ryota Hasegawa"
-        },
-        {
-          "id": "aobaheightshinotaigaave",
-          "name": "Hino Taiga / Ave"
-        }
-      ]
+      "bots": [
+        "aobaheightshasegawabrothers",
+        "aobaheightsryotahasegawa",
+        "aobaheightshinotaigaave",
+        "aobaheightsthehasegawabrothers",
+        "aobaheightshasegawaryota"
+      ],
+      "hidden": false
     },
     {
       "id": "eldrath",
       "name": "Eldrath",
-      "tagline": "",
       "description": "The Eldrath universe — old names, aurumfang blood, and a world apart.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/6c40667b-9cb2-446b-babc-fab650ca0b48",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "eirikraurumfangeldrathuniverse",
-          "name": "Eirikr Aurumfang"
-        },
-        {
-          "id": "raonlunatepescreatorboteldrath",
-          "name": "Creator Bot"
-        },
-        {
-          "id": "hrafnaurumfangeldrathuniverse",
-          "name": "Hrafn Aurumfang"
-        },
-        {
-          "id": "eirikreldrathuniverse",
-          "name": "Eirikr"
-        },
-        {
-          "id": "ragnaraurumfangeldrathuniverse",
-          "name": "Ragnar Aurumfang"
-        }
-      ]
+      "bots": [
+        "eirikraurumfangeldrathuniverse",
+        "raonlunatepescreatorboteldrath",
+        "hrafnaurumfangeldrathuniverse",
+        "eirikreldrathuniverse",
+        "ragnaraurumfangeldrathuniverse"
+      ],
+      "hidden": false
     },
     {
       "id": "precinct-47",
       "name": "47th Precinct",
-      "tagline": "",
       "description": "Detectives of the 47th Precinct — late nights, long cases, shorter tempers.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/e3e1073c-8e15-418d-90fd-7575a58e3a95",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "47thprecinctvincentchen",
-          "name": "Vincent Chen"
-        },
-        {
-          "id": "47thprecinctkennethfitzgerald",
-          "name": "Kenneth Fitzgerald"
-        },
-        {
-          "id": "47thprecinctkenneththeodorefitzgerald",
-          "name": "Kenneth Theodore Fitzgerald"
-        },
-        {
-          "id": "47thprecinctkenneth",
-          "name": "Kenneth"
-        }
-      ]
+      "bots": [
+        "47thprecinctvincentchen",
+        "47thprecinctkennethfitzgerald",
+        "47thprecinctkenneththeodorefitzgerald",
+        "47thprecinctkenneth"
+      ],
+      "hidden": false
     },
     {
       "id": "saja-boys",
       "name": "Saja Boys",
-      "tagline": "",
       "description": "The Saja Boys, together and one by one.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/d2eccc02-7578-46a5-89f2-d68ab088ccd0",
-      "status": "soon",
-      "href": "",
-      "cast": [
-        {
-          "id": "sajaboysmeetyoucb",
-          "name": "Saja Boys meet you"
-        },
-        {
-          "id": "sajaboysabby",
-          "name": "ABBY ʕ•ᴥ•ʔ"
-        },
-        {
-          "id": "sajaboysmystery",
-          "name": "MYSTERY"
-        },
-        {
-          "id": "sajaboysvacationtobeachhouse",
-          "name": "Vacation to Beach House"
-        },
-        {
-          "id": "sajaboysromance",
-          "name": "Romance"
-        },
-        {
-          "id": "sajaboysjinu",
-          "name": "JINU"
-        },
-        {
-          "id": "sajaboysbabybbv",
-          "name": "BABY v"
-        }
-      ]
+      "bots": [
+        "sajaboysmeetyoucb",
+        "sajaboysabby",
+        "sajaboysmystery",
+        "sajaboysvacationtobeachhouse",
+        "sajaboysromance",
+        "sajaboysjinu",
+        "sajaboysbabybbv"
+      ],
+      "hidden": false
+    },
+    {
+      "id": "night-over",
+      "name": "Night Over",
+      "description": "A universe still being bound. Bots will appear here when RaonLee is ready to share them.",
+      "cover": "",
+      "bots": [],
+      "hidden": false
     }
-  ]
+  ],
+  "worldbooks": []
 }
