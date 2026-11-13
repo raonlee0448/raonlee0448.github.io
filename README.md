@@ -52,8 +52,10 @@ The page always has a fallback copy of `site.json` inside `index.html`. After a 
 ## Notes
 
 - Only **public** bots are on this page. Private ones never appear, even if someone guesses an id.
+- The same character posted on more than one platform is shown once. Tapping an avatar opens a small menu of platform links.
+- The gallery and each series show the top **20** unique bots by interactions (`listLimit` in `site.json`, editable in Studio). A **More on site** button points to RaonLee’s platform profiles for the rest.
 - Top 3 defaults to the three highest lead-platform interaction counts (Farm R, Lian Otonashi, Thaelar right now). Leave the Top 3 picker empty in Studio to keep it automatic, or pick three bots yourself.
-- **Series** are groups of bots (My Stepbros, Kappa Sigma Chi, and the rest), each kept in its own house. Membership is by title match only, and one bot never belongs to two series.
+- **Series** are groups of bots (My Stepbros, Kappa Sigma Chi, and the rest), each kept in its own house. Membership is unique bots (with a `links` array per bot). One bot never belongs to two series.
 - **World Books** are published lore books only. Until you publish one, that section shows “World Books coming soon”. Hollowmere is not included.
 - Counts are each platform’s own lifetime total, never a cross-site sum.
 - The 18+ gate is remembered in the browser (`raonlee-followers-18`). Bypass it with `?preview=1` or `?shot=1`.

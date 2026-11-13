@@ -30,19 +30,131 @@
       "description": "Stepbrothers, summer houses, and the kind of family tension you weren’t supposed to want.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1782555170248555127_a5a57865e7090f4c.jpg",
       "bots": [
-        "spendingsummerwithmystepbrother",
-        "derekyourgymratstepbrother",
-        "bulliedbystepbrother",
-        "judgedbyyourstepbro",
-        "derekyourgymratstepbro",
-        "inkedbyyourstepbrotherchoso",
-        "bulliedbyyourstepbrother",
-        "spendingsummerwithajerkstepbrother",
-        "stepbrotherstemptation",
-        "spendingsummerwithjerkstepbro",
-        "spendingsummerwithmyjerkstepbrother",
-        "inkedbyyourstepbrother",
-        "spendingsummerwithstepbro"
+        {
+          "id": "spendingsummerwithmystepbrother",
+          "aliases": [
+            "spendingsummerwithajerkstepbrother",
+            "spendingsummerwithjerkstepbro",
+            "spendingsummerwithmyjerkstepbrother",
+            "spendingsummerwithstepbro"
+          ],
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1782555603940313130"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/8544fc5e-cb6b-43eb-ac38-d8afce208236/details"
+            },
+            {
+              "name": "CraveU",
+              "slug": "craveu",
+              "url": "https://craveu.ai/character/spending-summer-with-jerk-step-bro-X4AffZP3"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/199a340a-593b-4098-bd1c-1929dd0cb6ba"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6502985601"
+            }
+          ]
+        },
+        {
+          "id": "derekyourgymratstepbrother",
+          "aliases": [
+            "derekyourgymratstepbro"
+          ],
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1765729982204054850"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/20542557-4279-4264-b35d-eaba7f48b160/details"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/c9c5dfe0-9491-44f3-9f74-d5d83e721427"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6334599091"
+            }
+          ]
+        },
+        {
+          "id": "bulliedbystepbrother",
+          "aliases": [
+            "bulliedbyyourstepbrother"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/61bd0006-6d82-4d9a-b3d7-1c40aadf50e2/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1781871359893901847"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/12a7337e-a782-43db-82d6-046fbef02227"
+            }
+          ]
+        },
+        {
+          "id": "judgedbyyourstepbro",
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1787640639358339285"
+            }
+          ]
+        },
+        {
+          "id": "inkedbyyourstepbrotherchoso",
+          "aliases": [
+            "inkedbyyourstepbrother"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/c0cbc9f9-5321-4f61-9454-c6961904d8de/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6180490231"
+            }
+          ]
+        },
+        {
+          "id": "stepbrotherstemptation",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/384a10ba-6d10-48b0-bcdf-9fe9558eb487/details"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -52,11 +164,81 @@
       "description": "Five brothers of the house. Loyalty, rivalry, and the bonds that keep them.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1764974212398347457_203a7e365751c3e3.jpg",
       "bots": [
-        "kappasigmachileokincaid",
-        "kappasigmachijaxdalton",
-        "kappasigmachichaserourke",
-        "kappasigmachifinnradcliffe",
-        "kappasigmachibrodymorrison"
+        {
+          "id": "kappasigmachileokincaid",
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1764974563249841436"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/21b2cab3-9af9-4301-b48d-39cf2e5b4fc4/details"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/f3c7327c-dbe2-494c-9c68-4e062fc4bde0"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6334676451"
+            }
+          ]
+        },
+        {
+          "id": "kappasigmachijaxdalton",
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1773820958496337842"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/068e1b9a-908e-4fc7-be80-1c40feaa3f03/details"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/d3c6e6db-7822-4999-8d65-86c239265f80"
+            }
+          ]
+        },
+        {
+          "id": "kappasigmachichaserourke",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/662ad98c-5f3b-48cf-b827-4e498ff636bd/details"
+            }
+          ]
+        },
+        {
+          "id": "kappasigmachifinnradcliffe",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/25b0e6f0-62ba-4c68-8b06-c80335bf5422/details"
+            }
+          ]
+        },
+        {
+          "id": "kappasigmachibrodymorrison",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/05e9e39a-85a9-462b-8083-61f567c510f0/details"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -66,13 +248,76 @@
       "description": "The seven deadly sins, walking among you — hungry, proud, and rarely sorry.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/dbe61db2-4477-442c-8fcb-7a11cbca2204",
       "bots": [
-        "7sinsazazelinjapan",
-        "7sinsbelethdecidestovisit",
-        "7sinsbeelzebubownsarestaurant",
-        "7sinsbelphegorisunabletosleep",
-        "7sinsasmodeushiresacriticnanny",
-        "7sinsmalphasinlove",
-        "7sinssabotagedbymammon"
+        {
+          "id": "7sinsazazelinjapan",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/13c20325-0fb3-414c-8d16-642e008551e4/details"
+            }
+          ]
+        },
+        {
+          "id": "7sinsbelethdecidestovisit",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/e01c0d49-49c0-4c29-8298-ce333f14cb26/details"
+            }
+          ]
+        },
+        {
+          "id": "7sinsbeelzebubownsarestaurant",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/d98a5253-e710-4645-8db3-87317ed01271/details"
+            }
+          ]
+        },
+        {
+          "id": "7sinsbelphegorisunabletosleep",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/0c6278f1-2be2-4355-aee1-435312f3aba6/details"
+            }
+          ]
+        },
+        {
+          "id": "7sinsasmodeushiresacriticnanny",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/f7174d45-4d7f-4254-935f-8668bc51a515/details"
+            }
+          ]
+        },
+        {
+          "id": "7sinsmalphasinlove",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/32dbab22-63bf-436f-a36e-22f63985df90/details"
+            }
+          ]
+        },
+        {
+          "id": "7sinssabotagedbymammon",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/47cda192-7c4e-4da5-83b5-0c2964c3842f/details"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -82,17 +327,154 @@
       "description": "A darker Marvel-inspired gallery of RaonLee originals.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/45feffb1-2828-4a74-a3f2-84082781701e",
       "bots": [
-        "marvelautoxin",
-        "marvelaudrfrost",
-        "marvelauthunderstrike",
-        "marvelaudeadpool",
-        "marvelaureaper",
-        "marvelauacid",
-        "marvelauskull",
-        "marvelaubloodsport",
-        "marvelauthorn",
-        "marvelauseriesprism",
-        "marvelauprism"
+        {
+          "id": "marvelautoxin",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/3cb59577-e8ff-40d8-a35f-3c8427395913/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6265939571"
+            }
+          ]
+        },
+        {
+          "id": "marvelaudrfrost",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/93a4d675-ba20-4366-b6eb-c7264281d38f/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6271214681"
+            }
+          ]
+        },
+        {
+          "id": "marvelauthunderstrike",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/ac184ba5-4b10-413b-95d9-fecc8922b8f4/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6271050331"
+            }
+          ]
+        },
+        {
+          "id": "marvelaudeadpool",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/7572bdb6-2c9a-4a87-945b-feead795a325/details"
+            }
+          ]
+        },
+        {
+          "id": "marvelaureaper",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/c6fb04ad-3f27-477d-b459-9787fe2c6303/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6271219471"
+            }
+          ]
+        },
+        {
+          "id": "marvelauacid",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/b49a249e-975f-4600-8468-189c436e2db1/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6277508251"
+            }
+          ]
+        },
+        {
+          "id": "marvelauskull",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/3dc59f2b-f8c8-4c07-b631-f0236d552ec6/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6275498821"
+            }
+          ]
+        },
+        {
+          "id": "marvelaubloodsport",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/7e3006d4-0b53-4a9f-beb2-f631840fdc41/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6270675591"
+            }
+          ]
+        },
+        {
+          "id": "marvelauthorn",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/e9dcb304-c0c8-4c2f-a5fe-1121537be0c7/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6275484081"
+            }
+          ]
+        },
+        {
+          "id": "marvelauseriesprism",
+          "aliases": [
+            "marvelauprism"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/a1d905d4-c2d4-46b0-bafb-649f8de2251c/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6270684111"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -102,14 +484,199 @@
       "description": "A shared series of dangerous appetites, vice, and the ones who indulge them.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1785889033869873235_7413861cd938f800.jpg",
       "bots": [
-        "varkaunwantedkingvenomvice",
-        "slicktentaclefvkedvenomviceseries",
-        "strayhumiliationkinkvenomvice",
-        "munchoralfixationvenomvice",
-        "greeddoubletroublevenomviceseries",
-        "roanannoyingtwinbrothervenomviceseries",
-        "webbrattamervenomviceseries",
-        "varkaunwantedkingvenomviceseries"
+        {
+          "id": "varkaunwantedkingvenomvice",
+          "aliases": [
+            "varkaunwantedking",
+            "varkaunwantedkingvenomviceseries",
+            "varkatheunwantedking"
+          ],
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1785889690702189363"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/4f2a2c60-5508-4caf-b293-6b1f713fea9b/details"
+            },
+            {
+              "name": "CraveU",
+              "slug": "craveu",
+              "url": "https://craveu.ai/character/𝐕𝐀𝐑𝐊𝐀-unwanted-king-venom-vice-series-0r04StZo"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6176741151"
+            }
+          ]
+        },
+        {
+          "id": "slicktentaclefucked",
+          "aliases": [
+            "slicktentaclefvkedvenomviceseries",
+            "slick"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/ec5046c0-1779-435b-b3fe-40b3b0d33670/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1787841701657157777"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6159948031"
+            }
+          ]
+        },
+        {
+          "id": "strayhumiliationkink",
+          "aliases": [
+            "strayhumiliationkinkvenomvice",
+            "stray"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/3619d650-707b-44da-8c09-7c52d229e421/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1784046159094418444"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6158837881"
+            }
+          ]
+        },
+        {
+          "id": "munchoralfixation",
+          "aliases": [
+            "munchoralfixationvenomvice",
+            "munch"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/fa3331f8-9fd9-4bcb-92e7-67f49eec3b6c/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1784046805766018313"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6157295351"
+            }
+          ]
+        },
+        {
+          "id": "greeddoubletrouble",
+          "aliases": [
+            "greeddoubletroublevenomviceseries"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/68e63310-fe3b-49a7-aa1a-fea340211d25/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1755509271976846137"
+            },
+            {
+              "name": "CraveU",
+              "slug": "craveu",
+              "url": "https://craveu.ai/character/𝐆𝐑𝐄𝐄𝐃-𝐃𝐨𝐮𝐛𝐥𝐞-𝐓𝐫𝐨𝐮𝐛𝐥𝐞-venom-vice-series-2ss62Kq6"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6153833991"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/f44ce41f-5689-4bcb-bc08-5a1f0f511916"
+            }
+          ]
+        },
+        {
+          "id": "roanannoyingtwinbrother",
+          "aliases": [
+            "roanannoyingtwinbrothervenomviceseries",
+            "roanannoyingtwin"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/d6549598-8f01-4fba-aba3-14e7ad9792cd/details"
+            },
+            {
+              "name": "CraveU",
+              "slug": "craveu",
+              "url": "https://craveu.ai/character/roan-annoying-twin-brother-venom-vice-series-mksLdJ56"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6176748491"
+            }
+          ]
+        },
+        {
+          "id": "webbrattamer",
+          "aliases": [
+            "webbrattamervenomviceseries",
+            "web"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/819e0024-a0bd-4cb7-9a84-cbd8de89b01f/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1755509647689395137"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6155638031"
+            },
+            {
+              "name": "CraveU",
+              "slug": "craveu",
+              "url": "https://craveu.ai/character/𝐖𝐄𝐁-𝐁𝐫𝐚𝐭-𝐓𝐚𝐦𝐞𝐫-venom-vice-series-FVCw37cZ"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/79a9ae1b-5c4d-430d-995f-f854e2be760e"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -119,11 +686,77 @@
       "description": "The Hasegawa brothers of Aoba Heights, and those who live alongside them.",
       "cover": "https://img.tipsy.chat/character/watermark/1754902539978876341_1772435471884723612_96b9f65a076420e9.jpg",
       "bots": [
-        "aobaheightshasegawabrothers",
-        "aobaheightsryotahasegawa",
-        "aobaheightshinotaigaave",
-        "aobaheightsthehasegawabrothers",
-        "aobaheightshasegawaryota"
+        {
+          "id": "aobaheightshasegawabrothers",
+          "aliases": [
+            "aobaheightsthehasegawabrothers"
+          ],
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1772436474970719294"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/3ec34b05-de1d-49e5-986f-adc273cc8ea2/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6397984861"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/8cfaf2d5-22c5-4873-8645-8667e01e4d5b"
+            }
+          ]
+        },
+        {
+          "id": "aobaheightsryotahasegawa",
+          "aliases": [
+            "aobaheightshasegawaryota"
+          ],
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1772436708015693499"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/9ee9c56e-7d4c-486c-93ed-d81acfbd693a/details"
+            },
+            {
+              "name": "Saucepan",
+              "slug": "saucepan",
+              "url": "https://saucepan.ai/c/9401a384-d17e-4111-8045-d89077c4ce53"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6398415841"
+            }
+          ]
+        },
+        {
+          "id": "aobaheightshinotaigaave",
+          "links": [
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1784772247404744966"
+            },
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/444b82b1-1b05-4326-beea-ca00d107dfbb/details"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -133,11 +766,80 @@
       "description": "The Eldrath universe — old names, aurumfang blood, and a world apart.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/6c40667b-9cb2-446b-babc-fab650ca0b48",
       "bots": [
-        "eirikraurumfangeldrathuniverse",
-        "raonlunatepescreatorboteldrath",
-        "hrafnaurumfangeldrathuniverse",
-        "eirikreldrathuniverse",
-        "ragnaraurumfangeldrathuniverse"
+        {
+          "id": "eirikraurumfangeldrathuniverse",
+          "aliases": [
+            "eirikreldrathuniverse"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/f95140a2-85e4-4393-885b-e49ff9d634f0/details"
+            },
+            {
+              "name": "Sakura",
+              "slug": "sakura",
+              "url": "https://www.sakura.fm/chat/S3thZdm"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/104954"
+            }
+          ]
+        },
+        {
+          "id": "raonlunatepescreatorboteldrath",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/e1eb8784-25c3-4159-afec-11d090991887/details"
+            }
+          ]
+        },
+        {
+          "id": "hrafnaurumfangeldrathuniverse",
+          "aliases": [
+            "hrafnaurumfang"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/306333c2-dc08-44a7-9555-7d52ef839cd2/details"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/105762"
+            }
+          ]
+        },
+        {
+          "id": "ragnaraurumfangeldrathuniverse",
+          "aliases": [
+            "ragnaraurumfang"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/bd81c2f2-839c-4938-826f-ebfb21533116/details"
+            },
+            {
+              "name": "Sakura",
+              "slug": "sakura",
+              "url": "https://www.sakura.fm/chat/7KPEtHM"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/105357"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -147,10 +849,58 @@
       "description": "Detectives of the 47th Precinct — late nights, long cases, shorter tempers.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/e3e1073c-8e15-418d-90fd-7575a58e3a95",
       "bots": [
-        "47thprecinctvincentchen",
-        "47thprecinctkennethfitzgerald",
-        "47thprecinctkenneththeodorefitzgerald",
-        "47thprecinctkenneth"
+        {
+          "id": "47thprecinctvincentchen",
+          "aliases": [
+            "vincent"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/552c1af2-b263-4f08-8204-aab77617fef8/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1760029842435635745"
+            },
+            {
+              "name": "CraveU",
+              "slug": "craveu",
+              "url": "https://craveu.ai/character/vincent-8ikvkUZ6"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6276390581"
+            }
+          ]
+        },
+        {
+          "id": "47thprecinctkennethfitzgerald",
+          "aliases": [
+            "47thprecinctkenneththeodorefitzgerald",
+            "47thprecinctkenneth"
+          ],
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/ed6d19dc-f870-41ea-8d94-b2acaca7257f/details"
+            },
+            {
+              "name": "Tipsy",
+              "slug": "tipsy",
+              "url": "https://tipsy.chat/chat/1760030098259658086"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6274960831"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -160,13 +910,86 @@
       "description": "The Saja Boys, together and one by one.",
       "cover": "https://cdn.crushon.ai/images/ec31a899-1dc0-11ef-865e-aa6f3eca0785/d2eccc02-7578-46a5-89f2-d68ab088ccd0",
       "bots": [
-        "sajaboysmeetyoucb",
-        "sajaboysabby",
-        "sajaboysmystery",
-        "sajaboysvacationtobeachhouse",
-        "sajaboysromance",
-        "sajaboysjinu",
-        "sajaboysbabybbv"
+        {
+          "id": "sajaboysmeetyoucb",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/bf6d47aa-b2e3-45ad-bb40-6cd925306b44/details"
+            }
+          ]
+        },
+        {
+          "id": "sajaboysabby",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/9f2004d5-32e1-4b42-a56b-1c6d53ecb14f/details"
+            },
+            {
+              "name": "CraveU",
+              "slug": "craveu",
+              "url": "https://craveu.ai/character/saja-boys-abby-RzLpUNRE"
+            },
+            {
+              "name": "LinkinLove",
+              "slug": "linkinlove",
+              "url": "https://linkin.love/character/6190718671"
+            }
+          ]
+        },
+        {
+          "id": "sajaboysmystery",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/1b80dba5-43e9-4eb1-8f18-ca2c04c37a20/details"
+            }
+          ]
+        },
+        {
+          "id": "sajaboysvacationtobeachhouse",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/98a7a231-0824-4a9b-8f32-ad1e9d4892f7/details"
+            }
+          ]
+        },
+        {
+          "id": "sajaboysromance",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/49a215f8-6451-4ff3-a68d-98e1633560fd/details"
+            }
+          ]
+        },
+        {
+          "id": "sajaboysjinu",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/c74ac9bd-0a76-4e91-9b4a-c181423750cd/details"
+            }
+          ]
+        },
+        {
+          "id": "sajaboysbabybbv",
+          "links": [
+            {
+              "name": "Crushon",
+              "slug": "crushon",
+              "url": "https://crushon.ai/character/b7c7dcfe-d998-4a55-a145-63af5c70c68b/details"
+            }
+          ]
+        }
       ],
       "hidden": false
     },
@@ -179,5 +1002,6 @@
       "hidden": false
     }
   ],
-  "worldbooks": []
+  "worldbooks": [],
+  "listLimit": 20
 }
