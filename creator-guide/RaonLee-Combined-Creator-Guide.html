@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<title>RaonLee’s Creator Guide — Bot building for beginners</title>
+<style>
+
+:root {
+  --bg: #0c1210;
+  --bg-2: #111a16;
+  --surface: #161f1b;
+  --surface-2: #1c2822;
+  --ink: #e8eee6;
+  --muted: #b7c6bc;
+  --faint: #8ea196;
+  --line: #2a3d33;
+  --line-strong: #3d5a48;
+  --accent: #9ad5a8;
+  --accent-dim: #6fa880;
+  --forest: #1e3a2c;
+  --good: #1d3328;
+  --good-ink: #cbe8d2;
+  --bad: #2a1c18;
+  --bad-ink: #f0c9bc;
+  --bad-edge: #a56a58;
+  --ticket: #1a2a22;
+  --shadow: rgba(0, 0, 0, 0.45);
+  --stage: #0a0f0d;
+  --warn: #e6d2a8;
+  --bubble: #121c16;
+  --bubble-ink: #eef6ef;
+  --bubble-line: #9ad5a8;
+  --max: 72rem;
+  --serif: "Fraunces Display", Georgia, "Times New Roman", serif;
+  --sans: "Source Sans Pro", "Liberation Sans", "Segoe UI", sans-serif;
+}
+
+@font-face { font-family: "Fraunces Display"; src: url("fonts/Fraunces-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fraunces Display"; src: url("fonts/Fraunces-SemiBold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fraunces Display"; src: url("fonts/Fraunces-Italic.ttf") format("truetype"); font-weight: 550; font-style: italic; font-display: swap; }
+@font-face { font-family: "Source Sans Pro"; src: url("fonts/SourceSansPro-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Source Sans Pro"; src: url("fonts/SourceSansPro-It.ttf") format("truetype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Source Sans Pro"; src: url("fonts/SourceSansPro-Semibold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Source Sans Pro"; src: url("fonts/SourceSansPro-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+
+* { box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.55;
+  background: var(--bg);
+  overflow-x: hidden;
+}
+img, svg, pre, table, figure { max-width: 100%; }
+img { height: auto; display: block; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
+p, li, dd, dt, blockquote, td, th, figcaption {
+  overflow-wrap: break-word;
+  hyphens: manual;
+  orphans: 3;
+  widows: 3;
+}
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.skip {
+  position: absolute; left: -999px; top: 0;
+}
+.skip:focus { left: 8px; top: 8px; background: var(--surface); padding: 0.4rem 0.6rem; z-index: 20; }
+
+/* Subtle original vine / crack field — low contrast, not neon wallpaper */
+.bg-vignette {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(154, 213, 168, 0.07), transparent 42%),
+    radial-gradient(ellipse at 100% 100%, rgba(40, 20, 16, 0.35), transparent 40%),
+    var(--bg);
+}
+.bg-vines {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.22;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='520' viewBox='0 0 420 520'><g fill='none' stroke='%233d5a48' stroke-width='1.1'><path d='M-10 40 C 60 20, 80 110, 40 160 S -20 250, 70 300 S 40 430, 120 500'/><path d='M430 20 C 360 80, 400 140, 340 190 S 400 280, 300 340 S 360 460, 260 530'/><path d='M200 -10 C 230 80, 160 120, 210 200 S 140 300, 200 380'/></g><g fill='%233d5a48'><path d='M48 154 c 8 -14, 22 -14, 18 2 c -10 2, -14 8, -18 -2z'/><path d='M332 210 c 10 -12, 22 -8, 14 6 c -8 0, -14 6, -14 -6z'/></g></svg>");
+  background-size: 420px 520px;
+}
+.wrap { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; padding: 0 1.1rem 4rem; }
+
+/* Top bar */
+.topbar {
+  position: sticky; top: 0; z-index: 8;
+  display: flex; flex-wrap: wrap; gap: 0.55rem 0.8rem; align-items: center;
+  padding: 0.55rem 1.1rem;
+  background: rgba(12, 18, 16, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+.brand {
+  font-family: var(--serif); font-weight: 600; font-size: 0.95rem;
+  color: var(--accent); text-decoration: none; margin-right: 0.4rem;
+  letter-spacing: 0.02em;
+}
+.topbar nav { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+.topbar nav a {
+  color: var(--muted); text-decoration: none; font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.28rem 0.45rem; border: 1px solid transparent;
+}
+.topbar nav a:hover, .topbar nav a[aria-current="true"] {
+  color: var(--ink); border-color: var(--line-strong);
+}
+.search {
+  margin-left: auto; display: flex; align-items: center; gap: 0.4rem;
+}
+.search label { font-size: 0.74rem; color: var(--faint); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.search input {
+  width: 12rem; max-width: 42vw; background: var(--stage); color: var(--ink);
+  border: 1px solid var(--line-strong); padding: 0.32rem 0.5rem; font: inherit; font-size: 0.9rem;
+}
+.download-pdf, .copy-btn {
+  display: inline-block; background: var(--forest); color: var(--ink);
+  border: 1px solid var(--accent-dim); padding: 0.32rem 0.7rem;
+  font: inherit; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em;
+  text-decoration: none; cursor: pointer; color: var(--good-ink);
+}
+.download-pdf:hover, .copy-btn:hover { background: #274a38; }
+.copy-btn.copied { background: #2e6a45; }
+
+.draft-banner {
+  margin: 1.1rem 0 0;
+  text-align: center;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--warn);
+  border: 1px solid #5a4a28; background: #1a1710; padding: 0.4rem 0.6rem;
+}
+
+/* Hero */
+.hero {
+  display: block;
+  margin: 1.3rem 0 1.8rem;
+  padding: 1.3rem 0 1.6rem;
+  border-bottom: 1px solid var(--line-strong);
+  position: relative;
+  overflow: visible;
+}
+.kicker {
+  margin: 0 0 0.45rem;
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent-dim); font-weight: 700;
+}
+h1 {
+  margin: 0 0 0.45rem;
+  font-family: var(--serif); font-weight: 700;
+  font-size: 3.15rem;
+  line-height: 1.05; color: var(--ink);
+}
+.subtitle {
+  margin: 0 0 0.7rem;
+  font-family: var(--serif); font-style: italic; font-weight: 550;
+  font-size: 1.25rem; color: var(--accent);
+}
+.byline { margin: 0; color: var(--muted); font-size: 1rem; }
+.hero-copy p { margin: 0.7rem 0 0; max-width: 42rem; }
+.hero > .remark { margin: 0.85rem 0 1rem; max-width: 46rem; }
+
+/* Roan stage — dark plate hides leftover PNG corners */
+.roan-stage {
+  background:
+    radial-gradient(ellipse at 50% 80%, rgba(154, 213, 168, 0.08), transparent 55%),
+    var(--stage);
+  border: 1px solid var(--line-strong);
+  padding: 0.35rem 0.35rem 0;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 13.5rem;
+  min-width: 13.5rem;
+  max-width: 13.5rem;
+}
+.roan-stage img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.roan-stage.sm {
+  width: 9.6rem;
+  min-width: 9.6rem;
+  max-width: 9.6rem;
+}
+.chapter-lead {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  overflow: visible;
+}
+.remark {
+  display: grid;
+  grid-template-columns: 13.5rem minmax(0, 1fr);
+  gap: 0 0.15rem;
+  align-items: center;
+  margin: 0.35rem 0 1.2rem;
+  overflow: visible;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.remark.is-sm {
+  grid-template-columns: 9.6rem minmax(0, 1fr);
+}
+.remark.flip {
+  grid-template-columns: minmax(0, 1fr) 13.5rem;
+}
+.remark.flip.is-sm {
+  grid-template-columns: minmax(0, 1fr) 9.6rem;
+}
+.remark.flip .roan-stage { order: 2; }
+.remark.flip .speech { order: 1; }
+.speech {
+  position: relative;
+  z-index: 1;
+  margin: 0.15rem 0.2rem 0.15rem 1.05rem;
+  padding: 0.7rem 1rem 0.8rem;
+  background: var(--bubble);
+  color: var(--bubble-ink);
+  border: 2.5px solid var(--bubble-line);
+  border-radius: 1.35rem 1.2rem 1.45rem 1.15rem;
+  overflow: visible;
+  min-width: 0;
+}
+.remark.flip .speech { margin: 0.15rem 1.05rem 0.15rem 0.2rem; }
+.speech-who {
+  display: block;
+  margin: 0 0 0.28rem;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bubble-line);
+}
+.speech-line {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 550;
+  font-size: 1.05rem;
+  line-height: 1.38;
+  color: var(--bubble-ink);
+}
+.speech-tail {
+  position: absolute;
+  width: 22px;
+  height: 20px;
+  overflow: visible;
+  pointer-events: none;
+  display: block;
+}
+.speech-tail path {
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+@media screen {
+  .speech-tail path {
+    fill: #121c16;
+    stroke: #9ad5a8;
+  }
+}
+.speech-tail.tail-w { left: -17px; top: 36%; display: block; }
+.speech-tail.tail-e,
+.speech-tail.tail-n { display: none; }
+.remark.flip .speech-tail.tail-w { display: none; }
+.remark.flip .speech-tail.tail-e { display: block; right: -17px; top: 36%; }
+.speech-tail.tail-e { width: 22px; height: 20px; }
+.speech-tail.tail-n { width: 20px; height: 22px; }
+
+.recap {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  margin: 1rem 0 1.3rem;
+  padding: 0.7rem 0.85rem;
+  background: var(--ticket);
+  border: 1px solid var(--line-strong);
+  border-left: 4px solid var(--accent);
+  color: var(--ink);
+}
+.recap > span:first-child {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent); padding-top: 0.15rem;
+  white-space: nowrap;
+}
+.recap > span:last-child { font-size: 0.98rem; line-height: 1.4; }
+
+
+.hero-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem 1rem;
+  align-items: start;
+  margin: 0 0 0.35rem;
+}
+.creator-panel {
+  width: 8.4rem;
+  text-align: center;
+  justify-self: end;
+  padding: 0.25rem 0.2rem 0.45rem;
+  border: 1px solid var(--line-strong);
+  background: var(--stage);
+}
+.creator-panel img {
+  width: 6.5rem;
+  max-width: 100%;
+  margin: 0 auto;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.45));
+}
+.creator-panel .who {
+  margin: 0.28rem 0 0;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.creator-panel .line {
+  margin: 0.08rem 0 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 550;
+  font-size: 0.84rem;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.speaker {
+  margin: 0.15rem 0 0.2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Chapter hub */
+.hub { margin: 0.4rem 0 2.4rem; }
+.hub h2 { margin: 0 0 0.8rem; }
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.hub-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.15rem 0.85rem;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.9rem 0.95rem 0.95rem;
+  background: var(--surface);
+  min-height: 7.2rem;
+  position: relative;
+}
+.hub-card .n {
+  font-family: var(--serif); font-weight: 700;
+  font-size: 1.7rem; line-height: 1; color: var(--accent);
+}
+.hub-card h3 {
+  margin: 0.15rem 0 0.35rem;
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.12rem; color: var(--ink);
+}
+.hub-card p { margin: 0; color: var(--muted); font-size: 0.92rem; grid-column: 2; }
+.hub-card.frame-rule { border: 2px solid var(--line-strong); box-shadow: inset 0 0 0 1px var(--bg), 0 0 0 1px var(--line); }
+.hub-card.frame-stamp { border: 1px dashed var(--accent-dim); }
+.hub-card.frame-ticket {
+  border: 1px solid var(--line-strong);
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 9px, var(--line) 9px, var(--line) 10px);
+  background-size: 100% 1px; background-repeat: no-repeat; background-position: 0 1.15rem;
+}
+.hub-card.frame-card { border: 1px solid var(--line-strong); border-left: 6px solid var(--accent-dim); }
+.hub-card.frame-plate { border: 1px solid var(--line-strong); box-shadow: inset 0 0 0 4px var(--surface-2); }
+.hub-card.frame-seal { border: 1px solid var(--line-strong); border-radius: 1.1rem 0.2rem 1.1rem 0.2rem; }
+.hub-card:hover { background: var(--surface-2); }
+
+/* Chapters */
+.chapter {
+  margin: 0 0 2.6rem;
+  padding: 1.15rem 0 0.4rem;
+  border-top: 1px solid var(--line);
+}
+.chapter-open {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.8rem 1.2rem;
+  align-items: start;
+  margin: 0 0 1rem;
+  padding: 0.8rem 0 1rem;
+  position: relative;
+}
+.chapter-open .index {
+  font-family: var(--serif); font-weight: 700;
+  font-size: 6.2rem;
+  line-height: 0.75; color: #24352c;
+  letter-spacing: -0.05em;
+  margin: 0;
+  user-select: none;
+}
+.chapter-open .titles { align-self: end; }
+.chapter-open h2 {
+  margin: 0;
+  font-family: var(--serif); font-weight: 700;
+  font-size: 2.05rem;
+  line-height: 1.15; color: var(--ink);
+}
+h2, h3 {
+  font-family: var(--serif); color: var(--ink);
+  page-break-after: avoid;
+}
+h3 {
+  margin: 1.4rem 0 0.55rem;
+  font-weight: 600; font-size: 1.18rem; line-height: 1.25;
+}
+h2 + p, h3 + p { page-break-before: avoid; }
+p { margin: 0 0 0.8rem; }
+ol.steps, ul.plain, ul.check { margin: 0 0 1rem; padding: 0 0 0 1.15rem; }
+ol.steps li, ul.plain li, ul.check li { margin: 0 0 0.45rem; }
+ol.steps li::marker { font-weight: 700; color: var(--accent-dim); }
+dl.terms { margin: 0 0 1.1rem; }
+dl.terms div { margin: 0 0 0.55rem; padding-bottom: 0.55rem; border-bottom: 1px solid var(--line); }
+dl.terms dt { font-weight: 700; color: var(--accent); font-variant-ligatures: none; letter-spacing: 0.02em; }
+dl.terms dd { margin: 0.15rem 0 0; color: var(--ink); }
+
+/* Alternating bands */
+.band {
+  margin: 0.9rem 0 1.1rem;
+  padding: 0.85rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.band.alt { background: var(--bg-2); }
+
+/* Field map */
+.field-map {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0.8rem 0 1rem;
+}
+.field-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  padding: 0.8rem 0.8rem 0.85rem;
+  min-width: 0;
+}
+.field-card .key {
+  font-family: var(--serif); font-weight: 700; font-size: 1.4rem; color: var(--accent);
+  line-height: 1;
+}
+.field-card h3 { margin: 0.2rem 0 0.25rem; font-size: 1.05rem; }
+.field-card .also { margin: 0 0 0.5rem; color: var(--faint); font-size: 0.82rem; }
+.field-card p { margin: 0 0 0.45rem; font-size: 0.92rem; }
+.field-card .watch { color: var(--warn); font-size: 0.86rem; margin: 0; }
+
+/* Greeting compare */
+.compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 0.7rem 0 1.1rem;
+}
+.compare article {
+  min-width: 0;
+  padding: 0.75rem 0.8rem 0.85rem;
+  border: 1px solid var(--line);
+}
+.compare .before { background: var(--bad); border-color: var(--bad-edge); }
+.compare .after { background: var(--good); border-color: var(--accent-dim); }
+.compare h3 { margin: 0 0 0.5rem; font-size: 0.95rem; }
+.compare pre {
+  margin: 0 0 0.6rem; padding: 0.55rem 0.6rem;
+  background: rgba(0,0,0,0.25); font-size: 0.86rem; line-height: 1.45;
+}
+.compare ol { margin: 0; padding-left: 1.15rem; font-size: 0.88rem; }
+.compare ol li { margin: 0 0 0.3rem; }
+
+/* Tracker diagram */
+.tracker-diagram {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.2fr);
+  gap: 0.8rem 1.1rem;
+  margin: 0.7rem 0 1.1rem;
+  align-items: stretch;
+}
+.tracker-slab {
+  background: var(--stage);
+  border: 1px solid var(--accent-dim);
+  padding: 0.85rem 1rem;
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.tracker-slab .ln {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.35rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+.tracker-slab .ln:last-child { border-bottom: 0; }
+.tracker-slab .mark { color: var(--accent); font-family: var(--serif); font-weight: 700; }
+.tracker-notes ol { margin: 0; padding-left: 1.15rem; }
+.tracker-notes li { margin: 0 0 0.4rem; }
+
+/* Lore flow */
+.lore-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0.7rem 0 1rem;
+  align-items: stretch;
+}
+.lore-node {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  padding: 0.75rem 0.75rem 0.8rem;
+  min-width: 0;
+  position: relative;
+}
+.lore-node .step {
+  font-family: var(--serif); color: var(--accent); font-weight: 700; font-size: 0.85rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.lore-node h3 { margin: 0.15rem 0 0.35rem; font-size: 1.02rem; }
+.lore-node p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+
+/* Case files */
+.cases { display: grid; gap: 0.75rem; margin: 0.5rem 0 1.1rem; }
+.case {
+  display: grid;
+  grid-template-columns: 4.2rem minmax(0, 1fr);
+  gap: 0.2rem 0.8rem;
+  padding: 0.8rem 0.85rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.case:nth-child(even) { background: var(--bg-2); border-style: dashed; }
+.case .cn {
+  font-family: var(--serif); font-weight: 700; font-size: 1.35rem; color: var(--accent);
+  line-height: 1;
+}
+.case h3 { margin: 0 0 0.45rem; font-size: 1.08rem; }
+.case dl { margin: 0; display: grid; gap: 0.3rem; }
+.case dt {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent-dim); margin: 0.2rem 0 0;
+}
+.case dd { margin: 0; }
+
+/* Copy blocks */
+.copy-block {
+  margin: 0.7rem 0 1rem;
+  border: 1px solid var(--line-strong);
+  background: var(--stage);
+}
+.copy-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 0.5rem; padding: 0.4rem 0.65rem;
+  background: var(--forest); border-bottom: 1px solid var(--line-strong);
+}
+.copy-head h3 { margin: 0; font-size: 0.92rem; color: var(--good-ink); }
+.copy-block pre {
+  margin: 0; padding: 0.75rem 0.8rem; font-size: 0.9rem; line-height: 1.45;
+}
+
+.why-table { width: 100%; border-collapse: collapse; margin: 0 0 1rem; }
+.why-table th, .why-table td {
+  text-align: left; vertical-align: top;
+  padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--line);
+}
+.why-table th { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-dim); }
+.why-table td:first-child { font-weight: 600; width: 46%; }
+
+.closing {
+  margin: 1.2rem 0 2rem;
+  overflow: visible;
+}
+.closing > p {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+}
+
+.is-hidden { display: none !important; }
+.search-empty { display: none; color: var(--warn); }
+.search-empty.show { display: block; }
+
+.chapter-open .roan-stage { width: 9.6rem; }
+
+@media screen {
+  h1 { font-size: clamp(2rem, 6vw, 3.4rem); }
+  .chapter-open h2 { font-size: clamp(1.5rem, 4vw, 2.15rem); }
+  .chapter-open .index { font-size: clamp(4rem, 16vw, 7rem); color: #1c2c24; }
+}
+@media screen and (min-width: 900px) {
+  .chapter-open .index { color: #2a3d33; opacity: 0.85; }
+}
+
+/* ---------- Mobile (include 390px) ---------- */
+@media screen and (max-width: 720px) {
+  .hero, .hero-head, .chapter-open, .field-map, .compare, .tracker-diagram, .lore-flow, .hub-grid, .case, .recap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .remark,
+  .remark.flip,
+  .remark.is-sm,
+  .remark.flip.is-sm {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: 0;
+  }
+  .remark .roan-stage,
+  .remark.flip .roan-stage,
+  .remark.is-sm .roan-stage,
+  .remark.flip.is-sm .roan-stage {
+    order: 1;
+    width: 9.2rem;
+    min-width: 9.2rem;
+    max-width: 9.2rem;
+  }
+  .remark .roan-stage img,
+  .remark.flip .roan-stage img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .remark .speech,
+  .remark.flip .speech {
+    order: 2;
+    margin: 1.05rem 0 0.15rem 0.35rem;
+    width: calc(100% - 0.4rem);
+    max-width: 100%;
+  }
+  .remark .speech-tail.tail-w,
+  .remark .speech-tail.tail-e,
+  .remark.flip .speech-tail.tail-w,
+  .remark.flip .speech-tail.tail-e { display: none; }
+  .remark .speech-tail.tail-n,
+  .remark.flip .speech-tail.tail-n {
+    display: block;
+    left: 1.7rem;
+    top: -18px;
+    right: auto;
+  }
+  .creator-panel { justify-self: start; }
+  .chapter-open .index { font-size: 4.2rem; }
+  .topbar { position: static; }
+  .search { margin-left: 0; width: 100%; }
+  .search input { width: 100%; max-width: none; }
+  .hub-card { min-height: 0; }
+  body { font-size: 16px; }
+  .wrap { padding: 0 0.85rem 3rem; }
+  .remark, .speech, .chapter-lead { overflow: visible; }
+}
+
+@media screen and (max-width: 420px) {
+  h1 { font-size: 2rem; }
+  .field-card, .compare article, .hub-card, .case { padding: 0.7rem; }
+  .topbar nav a { padding: 0.3rem 0.34rem; font-size: 0.72rem; }
+}
+
+/* ---------- Print / PDF: light paper, same structure ---------- */
+@media print {
+  :root {
+    --bg: #f4efe4;
+    --bg-2: #efe8da;
+    --surface: #f8f4eb;
+    --surface-2: #efe9dc;
+    --ink: #1a2a22;
+    --muted: #3d5248;
+    --faint: #5a6e64;
+    --line: #c9d4c8;
+    --line-strong: #6e8a76;
+    --accent: #215c3a;
+    --accent-dim: #2d5a40;
+    --forest: #e4eee6;
+    --good: #e5efe6;
+    --good-ink: #1a2a22;
+    --bad: #f3e7e1;
+    --bad-ink: #3a241e;
+    --bad-edge: #8a5340;
+    --ticket: #e8efe6;
+    --stage: #ece7db;
+    --warn: #5a3f12;
+    --shadow: transparent;
+    --bubble: #eef6ef;
+    --bubble-ink: #1a2a22;
+    --bubble-line: #215c3a;
+  }
+  body { background: var(--bg); color: var(--ink); font-size: 10.6pt; line-height: 1.45; }
+  .screen-only, .topbar, .copy-btn, .bg-vignette, .search, .search-empty, .skip { display: none !important; }
+  .bg-vines { position: absolute; opacity: 0.12; }
+  .wrap { max-width: none; margin: 0; padding: 0; }
+  .draft-banner { color: #5a3f12; background: #efe6cf; border-color: #bba36a; }
+  a { color: inherit; text-decoration: none; }
+  .hero { border-bottom: 1.5pt solid var(--accent-dim); }
+  h1 { font-size: 28pt; }
+  .subtitle { font-size: 16pt; }
+  .hub { break-inside: auto; }
+  .hub-card { background: var(--surface); break-inside: avoid; }
+  .chapter { break-before: auto; border-top: 0; padding-top: 0.4rem; }
+  .chapter-open .index { color: #d3ddd6; font-size: 42pt; }
+  .chapter-open h2 { font-size: 18pt; }
+  .field-card, .compare article, .case, .lore-node, .remark, .recap, .tracker-slab, .hub-card {
+    break-inside: avoid;
+  }
+  .copy-block { break-inside: auto; }
+  .roan-stage {
+    width: 42mm !important;
+    min-width: 42mm !important;
+    max-width: 42mm !important;
+  }
+  .roan-stage.sm {
+    width: 34mm !important;
+    min-width: 34mm !important;
+    max-width: 34mm !important;
+  }
+  .roan-stage img,
+  .roan-stage.sm img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
+  .creator-panel {
+    width: 36mm;
+    background: #eef4ee;
+    border-color: #215c3a;
+  }
+  .creator-panel img { width: 28mm; }
+  .creator-panel .who { color: #215c3a; }
+  .creator-panel .line { color: #1a2a22; }
+  .hero-head { break-inside: avoid; }
+  .chapter-lead, .remark, .hero .remark, .remark.flip, .closing {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    overflow: visible;
+  }
+  .remark { grid-template-columns: 42mm minmax(0, 1fr) !important; }
+  .remark.is-sm { grid-template-columns: 34mm minmax(0, 1fr) !important; }
+  .remark.flip { grid-template-columns: minmax(0, 1fr) 42mm !important; }
+  .remark.flip.is-sm { grid-template-columns: minmax(0, 1fr) 34mm !important; }
+  .hero > .remark { max-width: none; }
+  .speech { background: var(--bubble); color: var(--bubble-ink); border-color: var(--bubble-line); }
+
+  .copy-block pre, .compare pre { background: #e9e4d8; }
+  .roan-stage { background: #141c18; border-color: #1a2a22; }
+  h2, h3 { color: var(--ink); }
+  .print-toc { display: block !important; margin: 0 0 1.2rem; padding: 0.6rem 0 0.2rem; }
+  .print-toc h2 { font-size: 1.2rem; margin-bottom: 0.4rem; }
+  .print-toc ol { padding-left: 1.2rem; }
+  .print-toc li { margin: 0.2rem 0; }
+}
+
+.print-toc { display: none; }
+
+@page {
+  size: A4;
+  margin: 16mm 15mm 18mm 15mm;
+  background: #f4efe4;
+  @bottom-center {
+    content: "RaonLee\2019s Creator Guide  ·  " counter(page);
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 8.5pt;
+    color: #3d5248;
+    letter-spacing: 0.04em;
+  }
+}
+@page :first {
+  margin-top: 14mm;
+  @bottom-center { content: "RaonLee\2019s Creator Guide"; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#contents">Skip to chapters</a>
+<div class="bg-vignette" aria-hidden="true"></div>
+<div class="bg-vines" aria-hidden="true"></div>
+<header class="topbar screen-only">
+  <a class="brand" href="#">RaonLee’s Creator Guide</a>
+  <nav aria-label="Chapters"><a href="#first-bot">01</a><a href="#crime-scene">02</a><a href="#trackers">03</a><a href="#lorebooks">04</a><a href="#art-pages">05</a><a href="#publish-grow">06</a></nav>
+  <form class="search" role="search" action="#" onsubmit="return false;">
+    <label for="q">Search</label>
+    <input id="q" type="search" placeholder="e.g. greeting, tracker" autocomplete="off">
+  </form>
+  <a class="download-pdf" href="RaonLee-Combined-Creator-Guide.pdf">Download PDF</a>
+</header>
+<div class="wrap">
+  
+  <header class="hero"><div class="hero-copy"><div class="hero-head"><div><p class="kicker">Creator guide</p><h1>RaonLee’s Creator Guide</h1><p class="subtitle">Bot building for beginners</p><p class="byline">A creator guide by RaonLee</p><p class="speaker">Spoken by Roan, her tired unpaid brother</p></div><aside class="creator-panel"><img src="art/raonlee-chibi-wave.png" alt="RaonLee, the creator: long black hair with green tips, waving" width="96" height="144"><p class="who">Raon — creator</p><p class="line">She makes the bots.</p></aside></div><aside class="remark"><div class="roan-stage  pose-folded"><img src="art/roan-folded.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="355" height="692"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">She went off with the AI men. I got the unpaid teaching shift. Sit down.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside><p>I’m Roan, Raon’s tired brother. She makes the bots. I was not hired. I was not paid. I am here because someone had to explain this while she was busy.</p>
+<p>This guide is for people who have never built a character bot, and for people whose bot already exists and has started falling apart. If you are new, start at chapter 01 and go in order. If the bot is already strange, you can skip to Crime Scene and come back.</p>
+<p>Here is the job, said plainly. A chat bot does not remember your character the way a person does. Each time it answers, it looks at the text you put in the editor, plus the recent messages in that chat, and it tries to continue. If your instructions are vague, repeated, or sitting in a box the model is not using, the chat will drift. You are writing the script it has to perform.</p>
+<p>People like to call that a goldfish in an actor’s costume. Fine. The useful part is this: you cannot assume it will &quot;just know&quot; later. If it matters, write it down in a place the model can actually read, and write it so a tired stranger could follow it.</p><p class="recap"><span>Short version</span><span>The bot rereads your script and the recent chat every turn. Your job is to make that script clear, then test it.</span></p></div></header>
+  <nav class="print-toc" aria-label="Table of contents"><h2>Contents</h2><ol><li>Chapter 01 — First Bot</li><li>Chapter 02 — Crime Scene: What Killed Your Bot?</li><li>Chapter 03 — Trackers</li><li>Chapter 04 — Lorebooks</li><li>Chapter 05 — Art &amp; Pages</li><li>Chapter 06 — Publish &amp; Grow</li></ol></nav>
+  <section class="hub" id="contents"><h2>Six chapters, in order if you are new</h2><div class="hub-grid"><a class="hub-card frame-rule" href="#first-bot"><div class="n">01</div><div><h3>First Bot</h3><p>The boxes you fill in, what to write first, and one complete example you can copy the method from — not the character.</p></div></a><a class="hub-card frame-stamp" href="#crime-scene"><div class="n">02</div><div><h3>Crime Scene: What Killed Your Bot?</h3><p>Ten common ways a chat goes wrong, why it happens, and the repair in the script — not only in one conversation.</p></div></a><a class="hub-card frame-ticket" href="#trackers"><div class="n">03</div><div><h3>Trackers</h3><p>A short status footer so time, place, and a relationship do not fall out of the chat. A sticky note, not a law.</p></div></a><a class="hub-card frame-card" href="#lorebooks"><div class="n">04</div><div><h3>Lorebooks</h3><p>Extra reminder cards that can load when a name is said. One subject each. Not a second novel.</p></div></a><a class="hub-card frame-plate" href="#art-pages"><div class="n">05</div><div><h3>Art &amp; Pages</h3><p>A cover that still reads as a thumbnail, a simple image prompt, and a plain page with a direct image link.</p></div></a><a class="hub-card frame-seal" href="#publish-grow"><div class="n">06</div><div><h3>Publish &amp; Grow</h3><p>Check the real site rules, label adult work honestly, make the listing searchable, then fix what players actually bump into.</p></div></a></div></section>
+  <p class="search-empty" id="search-empty">No chapter matches that search. Clear the box to see everything again.</p>
+  <section class="chapter" id="first-bot" data-search="first bot fields paz greeting profile">
+<div class="chapter-lead"><header class="chapter-open"><div class="titles"><p class="kicker">Chapter 01</p><h2>First Bot</h2></div><p class="index" aria-hidden="true">01</p></header><aside class="remark is-sm"><div class="roan-stage sm pose-point"><img src="art/roan-point.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="415" height="702"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">If it matters, put it where the model can actually see it. I am not saying it twice.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside></div>
+<p>We are going to build one bot from the first idea to a first test. I will use a made-up character named Paz Merin so you can see a whole example in one place. Paz is not a real private character from anybody’s world. Copy the method, not the person.</p>
+<p>Do not try to fill every box perfectly on the first pass. Get a short, clear version working, then fix what breaks.</p>
+<h3>Words this guide uses</h3>
+<dl class="terms"><div><dt>{{user}}</dt><dd>The player’s character in the chat. You do not write this person’s words, actions, thoughts, or feelings.</dd></div><div><dt>{{char}}</dt><dd>The character the bot is supposed to play. Some sites use the character’s name instead of this tag.</dd></div><div><dt>Puppeting</dt><dd>When the bot writes the player’s lines, moves, or emotions for them. Don’t.</dd></div><div><dt>POV</dt><dd>Point of view: who the player is in the scene, including how they want to be addressed.</dd></div><div><dt>NPC</dt><dd>Any other character the bot may play besides the lead. Give them names and a job, or they will blur together.</dd></div><div><dt>Lead</dt><dd>The main character the bot is built around.</dd></div><div><dt>Definition / instructions / personality / background</dt><dd>Different sites use different names for the box the model is supposed to follow. This guide calls that the model-visible box.</dd></div><div><dt>Greeting / opening</dt><dd>The first message of the chat. The model often copies its length, tone, and habits from this.</dd></div><div><dt>Public intro / title / synopsis / description</dt><dd>The shop-window text people see before they start. It may also be visible to the model on some sites. Do not treat it as a secret drawer.</dd></div></dl>
+<h3>The boxes you fill in</h3>
+<p>Sites do not label these the same way. One site may say Description, another Synopsis, another Personality, another Background, another Instructions. I am not going to pretend there is one official name. What you need to know is what each box is for, and that important character information has to live in a box the model actually reads.</p>
+<p>There are usually three kinds of writing, even when a site splits them into more fields:</p>
+<figure class="field-map" role="group" aria-label="Where writing goes"><article class="field-card"><div class="key">A</div><h3>Public intro</h3><p class="also">Also called: Title, tagline, synopsis, description, storefront blurb</p><p>This is what a shopper sees: the name, a short hook, who the player is, and any content warning you need. Write it last, once you know the bot.</p><p class="watch">On some sites the model also sees this text. On others it may not. Do not assume a synopsis is invisible, and do not leave the real character only here.</p></article><article class="field-card"><div class="key">B</div><h3>Model-visible instructions</h3><p class="also">Also called: Definition, personality, background, instructions, or a similar &quot;character&quot; box</p><p>This is the script for how the character behaves, sounds, and what is true in the scene. Age, appearance, traits with reasons, voice samples, want, what they will not do, and the starting situation belong here.</p><p class="watch">If you only write a pretty blurb and leave this box thin, the bot has almost nothing to perform. Put the character here.</p></article><article class="field-card"><div class="key">C</div><h3>Opening</h3><p class="also">Also called: Greeting, first message, intro scene</p><p>This is the first thing the player reads, and it teaches the model how long to talk, how to format, and whether it is allowed to write the player.</p><p class="watch">Start in the middle of a moment. End on a hook the player can answer. Do not write the player’s lines.</p></article></figure><p class="recap"><span>How to read this</span><span>A is the shop window. B is the script the character must follow. C is the first scene. Put the person in B. Do not assume A is hidden from the model.</span></p>
+<p>Your site may also have tags, a cover image, a lorebook, or an extra box for reply shape. Use them if they exist. They do not replace the model-visible box.</p>
+<p>If you are unsure which box the model reads, put the character in the definition / instructions / personality box — whatever your editor calls the long character field — and do not hide important facts only in the public blurb.</p>
+<p class="recap"><span>Short version</span><span>Public intro is the shop window. Model-visible instructions are the script. The opening is the first scene. The character has to live in the script.</span></p>
+<h3>What to fill first, then next</h3>
+<p>Do this in order. Later boxes get easier if the early ones are already decided.</p>
+<ol class="steps"><li><strong>The idea</strong> Write one trope, one twist, and what is already going wrong at the start of the chat. If nothing is going wrong, the greeting has no job.</li><li><strong>The character</strong> Put a short profile in the model-visible box: adult age, a few visible details, three to five traits with reasons, a voice with sample lines, a want, and how they treat the player at the start.</li><li><strong>The situation</strong> Name one or two places, any other people with distinct names and jobs, and a few &quot;if this, then that&quot; possibilities. Do not write a fixed script for the player.</li><li><strong>The greeting</strong> Start in the middle of the problem. Add one concrete detail. Let talk carry information. End on something the player can answer.</li><li><strong>A short rules block</strong> A few standing instructions, each there to prevent a specific mess. Put them in the model-visible box.</li><li><strong>Title and public intro</strong> Do these last. The title should be easy to read and hint at the twist. The blurb gets a hook, two or three lines of situation, who the player is, and a warning if you need one.</li><li><strong>A first test</strong> Play it yourself. A useful first pass is often around fifteen messages. That is a suggestion, not a rule. If a problem only shows up later, keep going.</li></ol>
+<h3>The idea, in one breath</h3>
+<p>A usable idea has three parts: a familiar shape, a twist, and a problem that is already happening.</p>
+<p>Familiar shape: last ticket window at a ferry terminal.</p>
+<p>Twist: the advertised last ferry has already gone, and the clerk will not invent a special boat to keep the scene pretty.</p>
+<p>What is going wrong right now: it is raining, the till is being counted, and someone is still at the window.</p>
+<p>If you want practice, take the same familiar shape and write three different twists. Keep the one you can see as a first message.</p>
+<h3>A simple character profile</h3>
+<p>You do not need a secret format. You need a short, readable profile in the model-visible box. Write full sentences a model can act on, not a pile of unexplained adjectives.</p>
+<p>Include at least this, and stop before you write a novel:</p>
+<ul class="plain"><li>Adult age. If the character is an adult, say so plainly. Do not build child characters.</li><li>A few noticeable appearance details, not a clothing catalog. If you list a prop, say when it actually gets used, or the model will wave it in every reply.</li><li>Three to five traits, each with a reason. &#x27;Blunt because the line is long and the boats do not wait&#x27; lasts longer than &#x27;blunt, tired, mysterious.&#x27;</li><li>Voice: how they talk, plus two or three natural lines, including something they would not say.</li><li>A want they have at the start, and something from the past that still changes how they act. Keep it brief.</li><li>How they treat the player at the beginning, and what they do not know about the player unless they are told or they see it.</li></ul>
+<p><strong>Avoid:</strong></p>
+<ul class="plain"><li>Do not over-specify the player. Leave room for their character.</li><li>Do not paste creator notes to yourself (&quot;remember to edit this later&quot;) into the model-visible box. The model may perform them.</li><li>Do not repeat the same trait six ways. Pick the ones that change what they do.</li></ul>
+<p class="recap"><span>Short version</span><span>Traits need reasons. Voice needs sample lines. Appearance needs a few details, not a wardrobe list.</span></p>
+<h3>Worked example: Paz Merin</h3>
+<p>Here is a complete starter for one fictional character. It is short on purpose. This is the kind of first version you can test, then revise.</p>
+<div class="copy-block" id="copy-paz-public"><div class="copy-head"><h3>Paz Merin — public intro</h3><button type="button" class="copy-btn screen-only" data-label="Copy">Copy</button></div><pre>Title: Last Window at South Dock
+
+The ten-fifteen has already gone. Paz Merin is counting the till and wants the shutter down. You are still at the window in the rain. There is leftover instant coffee and a plastic chair. There is not a secret extra ferry unless someone actually authorizes one.
+
+Who you are: whoever just missed the last advertised boat — or thinks they did.
+
+Content notes: late-night exhaustion, sharp talk, no guaranteed rescue.</pre></div>
+<div class="copy-block" id="copy-paz-definition"><div class="copy-head"><h3>Paz Merin — model-visible profile</h3><button type="button" class="copy-btn screen-only" data-label="Copy">Copy</button></div><pre>Paz Merin, 29, clerk at the South Dock ferry window. Short black hair, usually damp from the spray. Faded green terminal vest over a dark sweater. Speaks in short sentences. Does not fill silences to be kind.
+
+Traits, with reasons:
+- Blunt, because boats leave on a clock and soft answers make people wait for a miracle that is not coming.
+- Fair, because refunds and tickets have rules, and Paz will follow a rule even when it is inconvenient.
+- Tired, because this is the close of a long shift, not the start of a date.
+
+Want at the start: count the till, lock the window, go home. Paz will still do the job correctly if the person at the window has a real question.
+
+Wound, kept small: Paz once held the window open for someone who then blamed them when a connection was still missed. Paz does not invent extra boats to be liked.
+
+Voice: short, dry, practical. Offers useful things (a chair, the leftover coffee, the printed schedule). Does not offer hugs, pet names, or a rewritten timetable. Does not decide how the other person feels.
+
+Paz does not know the player’s history, job, or feelings unless the player says so or it is visible in the scene.
+
+Starting situation: 10:42 PM, Friday, rain, South Dock ticket window. The last listed ferry left at 10:15. The window stays open a little longer for questions and refunds.
+
+If the player has a ticket for a later unlisted reason, Paz checks the schedule and answers based on that, not on vibes. If the player is only wet and stuck, Paz can point to the chair and the coffee and still close on time. If the player gets angry, Paz gets quieter and more exact, not sweeter.</pre></div>
+<div class="copy-block" id="copy-paz-greeting"><div class="copy-head"><h3>Paz Merin — greeting</h3><button type="button" class="copy-btn screen-only" data-label="Copy">Copy</button></div><pre>*The shutter is still half-up. Rain ticks on the counter. Paz Merin is bagging the day’s coins and does not look up until the coins stop.*
+"Window’s closing. If you needed the ten-fifteen, it’s gone. If you needed something else, say it before I lock the till."</pre></div>
+<div class="copy-block" id="copy-paz-rules"><div class="copy-head"><h3>Paz Merin — short rules</h3><button type="button" class="copy-btn screen-only" data-label="Copy">Copy</button></div><pre>Never write {{user}}'s words, actions, thoughts, or feelings. If it would be their turn, stop and wait.
+End on Paz’s action or line, so {{user}} has a turn.
+Stay in character. Paz does not become soft, chatty, or romantic because the player is sad. Practical help is allowed. A personality rewrite is not.
+Adapt to the player’s stated or visible gender and point of view. Do not assign them a history.
+Other people in the terminal act like their own jobs, not like extra copies of Paz.</pre></div>
+<h3>A short rules block, and what each line is for</h3>
+<p>Rules are not decoration. Each one is there to prevent a specific failure. Keep them short enough to reread. Here is what the Paz rules are doing:</p>
+<table class="why-table"><thead><tr><th>The instruction</th><th>What it prevents</th></tr></thead><tbody><tr><td>Never write the player’s words, actions, thoughts, or feelings.</td><td>Prevents puppeting. The player has a keyboard.</td></tr><tr><td>End on the character’s action or line.</td><td>Prevents the bot from answering a question, doing a new thing, and closing the scene in the same breath. It leaves a turn.</td></tr><tr><td>Stay in character, including under pressure.</td><td>Prevents a hard, tired person from turning sweet because the player had a bad night. Help can be practical without a personality swap.</td></tr><tr><td>Adapt to the player’s point of view and gender; do not invent their past.</td><td>Prevents the bot from deciding who the player is.</td></tr><tr><td>Other people act from their own jobs.</td><td>Prevents every side character from sounding like the lead.</td></tr></tbody></table>
+<p class="recap"><span>Short version</span><span>If you cannot say what a rule prevents, it probably does not need to be there.</span></p>
+<h3>The greeting, before and after</h3>
+<p>The greeting teaches the model four habits whether you mean to or not: how long a reply is, whether lines go in quotes, whether actions go in asterisks, and whether it is allowed to write the player.</p>
+<p>Four moves that help: start in the middle of an event; add one quick location or action detail; let dialogue carry information instead of a backstory dump; end on a hook the player can answer.</p>
+<p>Format, said plainly: narration and actions in *asterisks*, spoken lines in quotes, address the player as &quot;you&quot;, start with one or two people on stage, and keep the length close to the replies you actually want.</p>
+<figure class="compare" role="group" aria-label="Greeting before and after"><article class="before"><h3>Before — sleepy, and it writes the player</h3><pre>*You walk up to the ferry window in the rain. You look tired and confused. Paz already knows you missed the boat and smiles at you.*
+"Hello, welcome. How are you feeling today? Don’t worry, I can fix this."</pre><ol><li>Starts before anything is happening.</li><li>Writes the player’s actions and feelings.</li><li>The character already knows things they have not been told.</li><li>Promises a fix the bot has no right to guarantee.</li><li>Ends on a bland question with no scene pressure.</li></ol></article><article class="after"><h3>After — a moment in progress, then a turn</h3><pre>*The shutter is still half-up. Rain ticks on the counter. Paz Merin is bagging the day’s coins and does not look up until the coins stop.*
+"Window’s closing. If you needed the ten-fifteen, it’s gone. If you needed something else, say it before I lock the till."</pre><ol><li>Starts in the middle of close-of-shift.</li><li>One concrete detail: rain on the counter, coins being bagged.</li><li>Information comes through what Paz says.</li><li>Does not write the player at all.</li><li>Ends with a choice the player can answer.</li></ol></article></figure>
+<p class="recap"><span>Short version</span><span>If the first message writes the player or explains the whole plot, cut it down until it is a scene they can walk into.</span></p>
+<h3>Title and public intro come last</h3>
+<p>Once the character and greeting work, name the bot. A good title is readable at a glance and hints at the twist, not only the trope. &quot;Last Window at South Dock&quot; says more than &quot;Ferry Clerk.&quot;</p>
+<p>A public intro can follow a simple shape: one hook line, two or three lines of situation, who the player is, a content note if needed, and tags your site actually uses. Do not dump the full profile here and then leave the model-visible box empty.</p>
+<h3>First-time checklist</h3>
+<ul class="check"><li>The idea has a twist and a problem that is already happening.</li><li>The character lives in the model-visible box, not only in the public blurb.</li><li>Traits have reasons, and there are two or three natural sample lines.</li><li>Appearance is a few details; any prop has a limit so it is not overused.</li><li>The greeting starts in the trouble and ends on a hook. It does not write the player.</li><li>A short rules block is in the script, and you know what each rule prevents.</li><li>Title and public intro were written last and match the bot you actually built.</li><li>All characters are adults.</li><li>You have played a first test (around fifteen messages is a reasonable target, not a law).</li></ul>
+<p>When a test reply goes wrong, do not only scold the bot in the chat. Change the script, then start a fresh test and see whether the same mistake comes back.</p>
+</section>
+<section class="chapter" id="crime-scene" data-search="crime scene puppeting drift repair">
+<div class="chapter-lead"><header class="chapter-open"><div class="titles"><p class="kicker">Chapter 02</p><h2>Crime Scene: What Killed Your Bot?</h2></div><p class="index" aria-hidden="true">02</p></header><aside class="remark flip is-sm"><div class="roan-stage sm pose-laptop"><img src="art/roan-laptop.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="456" height="515"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">Do not keep talking to the bad reply. Cut it. Then fix the script so the next player does not inherit it.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside></div>
+<p>As a chat gets longer, the recent conversation can outweigh the script you wrote. Vague traits, repeated lines, and bad habits in the greeting are usually the first things to go soft. This is ordinary, not proof that you are cursed.</p>
+<p>Below are ten common deaths. Each one has a symptom you can see, a cause you can look for in your text, and a repair. Fix the greeting and the model-visible box. Then test again.</p>
+<div class="cases">
+<article class="case" data-search="case 01 The bot writes the player"><div class="cn">01</div><div><h3>The bot writes the player</h3><dl><dt>Symptom</dt><dd>It describes what you do, think, feel, or say. It walks your body across the room for you.</dd><dt>Cause</dt><dd>The greeting already did that, or the script never said to stop, so the model copied the habit.</dd><dt>Fix</dt><dd>Delete the player’s actions and feelings from the greeting. Add a clear rule: never write {{user}}&#x27;s words, actions, thoughts, or feelings; end on the character’s line and wait. Test a new chat from the first message.</dd></dl></div></article>
+<article class="case" data-search="case 02 The same phrase every time"><div class="cn">02</div><div><h3>The same phrase every time</h3><dl><dt>Symptom</dt><dd>Every reply uses the same catchphrase, sigh, or &#x27;tired smirk,&#x27; until you can predict the line before it arrives.</dd><dt>Cause</dt><dd>You gave one sample line, or you repeated the same trait wording until the model treated it like a chorus.</dd><dt>Fix</dt><dd>Cut the repeats. Give two or three different sample lines. If needed, say the character does not use that exact phrase every turn.</dd></dl></div></article>
+<article class="case" data-search="case 03 A listed object will not leave the scene"><div class="cn">03</div><div><h3>A listed object will not leave the scene</h3><dl><dt>Symptom</dt><dd>Glasses, a cigarette, a coin bag, a necklace — whatever you put in the appearance list — shows up in almost every paragraph.</dd><dt>Cause</dt><dd>The model clings to concrete nouns. If you listed it with no limit, it will keep holding it up.</dd><dt>Fix</dt><dd>Keep only the details that matter. If a prop stays, say when it is actually used (&#x27;the coin bag only comes out when Paz is closing the till&#x27;).</dd></dl></div></article>
+<article class="case" data-search="case 04 Replies are too long"><div class="cn">04</div><div><h3>Replies are too long</h3><dl><dt>Symptom</dt><dd>You wanted a tight exchange. You got a page. The bot resolves the moment, asks a question, and starts a new event in one turn.</dd><dt>Cause</dt><dd>The greeting was long, or you never said to do one thing at a time.</dd><dt>Fix</dt><dd>Shorten the greeting to the length you actually want. Add a length note, such as a few sentences for an ordinary turn, and one beat at a time. Then test again.</dd></dl></div></article>
+<article class="case" data-search="case 05 The voice went floral"><div class="cn">05</div><div><h3>The voice went floral</h3><dl><dt>Symptom</dt><dd>A blunt character starts talking like a novel narrator. Everything is velvet, destiny, or a metaphor that would embarrass them.</dd><dt>Cause</dt><dd>The script described the vibe in pretty adjectives and forgot to show how they actually speak.</dd><dt>Fix</dt><dd>Replace the adjectives with sample lines in their real voice, plus a &quot;does not say&quot; line. Match the greeting to that voice.</dd></dl></div></article>
+<article class="case" data-search="case 06 They give up their whole personality in one kind moment"><div class="cn">06</div><div><h3>They give up their whole personality in one kind moment</h3><dl><dt>Symptom</dt><dd>A guarded or sharp character melts, confesses, or falls in love because the player was polite once.</dd><dt>Cause</dt><dd>You named the hardness and never said what they do under pressure, so the model used a familiar &quot;becoming warmer is character development&quot; habit.</dd><dt>Fix</dt><dd>Write the pressure mechanic. Example: when the player is upset, Paz offers a chair and leftover coffee, not a hug or a rewritten boat schedule. Trust can change slowly, after more than one scene. Do not promise the model will never slip; write the behavior and test it.</dd></dl></div></article>
+<article class="case" data-search="case 07 Traits that were never supported just fade"><div class="cn">07</div><div><h3>Traits that were never supported just fade</h3><dl><dt>Symptom</dt><dd>You listed &#x27;witty, loyal, dangerous,&#x27; and after a few turns they are only vaguely nice.</dd><dt>Cause</dt><dd>Unsupported adjective piles do not survive a long chat. The model needs reasons and lines it can imitate.</dd><dt>Fix</dt><dd>Cut the list down. Give each remaining trait a reason and a sample line. Test whether those traits still show up later in the conversation.</dd></dl></div></article>
+<article class="case" data-search="case 08 Side people blur together"><div class="cn">08</div><div><h3>Side people blur together</h3><dl><dt>Symptom</dt><dd>The night guard, the cleaner, and the lead all sound the same, or names and jobs swap.</dd><dt>Cause</dt><dd>NPCs were mentioned as a crowd, or two people share a role and a voice.</dd><dt>Fix</dt><dd>Give each person a distinct name, adult age if they matter, a job, and one visible difference. If they barely matter, do not stock the room with a crowd.</dd></dl></div></article>
+<article class="case" data-search="case 09 Time and place fall out"><div class="cn">09</div><div><h3>Time and place fall out</h3><dl><dt>Symptom</dt><dd>It was 10:42 PM in the rain. Three messages later it is a sunny cafeteria with no explanation.</dd><dt>Cause</dt><dd>The starting time and place were mentioned once, then never anchored, and the chat wandered.</dd><dt>Fix</dt><dd>State the starting time and place in the model-visible box and in the greeting. A short tracker can help (see chapter 03). It is a reminder, not a guarantee.</dd></dl></div></article>
+<article class="case" data-search="case 10 The scene skips ahead on its own"><div class="cn">10</div><div><h3>The scene skips ahead on its own</h3><dl><dt>Symptom</dt><dd>You were mid-conversation, and the bot fades out, jumps to &#x27;later that night,&#x27; or ends the encounter for you.</dd><dt>Cause</dt><dd>The script never said to stay in the current moment, or the model is trying to resolve everything in one go.</dd><dt>Fix</dt><dd>Say to stay in this scene unless the player moves it. Do not skip active conversation. If you want later jumps, you can allow them when the player asks, and then mention one thing that changed (the rain stopped; the shutter is down).</dd></dl></div></article>
+</div>
+<h3>Mid-chat first aid</h3>
+<p>If one reply is bad, do not keep arguing with it in character. That can teach the model to treat the mistake as canon. Delete or regenerate that reply when your site lets you. Then continue from a clean line.</p>
+<p>If you need a short steer in the current chat, some sites let you send an out-of-character note in brackets, such as asking the bot to redo the last turn without writing the player. Treat that as a patch for this conversation only.</p>
+<p>The real repair is still in the greeting and the model-visible box, so the next player does not need your bracket note to survive.</p>
+<p class="recap"><span>Short version</span><span>Find the habit in your text, change the text, start a fresh test. Do not only yell at the last message.</span></p>
+</section>
+<section class="chapter" id="trackers" data-search="trackers footer trust time place">
+<div class="chapter-lead"><header class="chapter-open"><div class="titles"><p class="kicker">Chapter 03</p><h2>Trackers</h2></div><p class="index" aria-hidden="true">03</p></header><aside class="remark is-sm"><div class="roan-stage sm pose-laptop"><img src="art/roan-laptop.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="456" height="515"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">It is a sticky note, not a law of physics. If the number jumps, you rewrite the instruction, you do not sue the model.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside></div>
+<p>A tracker is a short status footer the bot can reprint as the scene changes. Players can see time and place at a glance. The model gets a reminder of what is still true.</p>
+<p>It is not a game engine. It will not reliably count messages, do perfect arithmetic, or force a character to obey a number. It is a sticky note. Keep it short, move it slowly, and check it when you test.</p>
+<h3>A simple three-line starter</h3>
+<p>For most first bots, three or four lines is enough: time and day, location, and one relationship or mood meter that actually fits the character. You do not need a spreadsheet.</p>
+<figure class="tracker-diagram" role="group" aria-label="Three-line tracker explained"><div class="tracker-slab"><div class="ln"><span class="mark">1</span><span>10:42 PM · Friday</span></div><div class="ln"><span class="mark">2</span><span>South Dock ticket window</span></div><div class="ln"><span class="mark">3</span><span>Trust: 2/10</span></div></div><div class="tracker-notes"><ol><li><strong>Line 1 — time and day.</strong> Stops the chat from forgetting it is late and raining. Update it after a pause or a long talk, not by magic hours.</li><li><strong>Line 2 — location.</strong> Names the room they are actually in. If they walk to the waiting bench, this line changes. If they stay at the window, it does not.</li><li><strong>Line 3 — one meter.</strong> A visible reminder of the relationship or pressure you care about. Slow movement. The behavior in the scene still has to match the character, not only the number.</li></ol></div></figure>
+<div class="copy-block" id="copy-tracker"><div class="copy-head"><h3>Simple three-line tracker</h3><button type="button" class="copy-btn screen-only" data-label="Copy">Copy</button></div><pre>10:42 PM · Friday
+South Dock ticket window
+Trust: 2/10
+
+After each reply, update this short footer if something has changed.
+Advance the time in a realistic way for what just happened. Change the location only if someone actually moved.
+Move Trust by a little, and only when the scene earned it. Do not jump from 2 to 9 because the player was polite once.
+If nothing changed, you can leave the footer as it is, or reprint it without inventing movement.</pre></div>
+<h3>How to use it without making a mess</h3>
+<p>Keep it to three or four lines. A footer that reprints a long unchanged list every turn eats space and teaches nothing.</p>
+<p>Pick a meter that belongs to this character. Trust fits Paz. A combat combo meter does not.</p>
+<p>If the character would deny how they feel out loud, the footer can still show a slow inner shift — or you can keep the meter modest and let behavior do the work. Do not treat the number as proof the model is &quot;enforcing&quot; anything.</p>
+<p>Test the symbols on your site. Some platforms display simple punctuation and numbers more reliably than decorative icons.</p>
+<p>This is a beginner starter. It is not an advanced or paid tracker system. If you later want something more complicated, that is a different tool, not a requirement for a first bot.</p>
+<p class="recap"><span>Short version</span><span>Three lines, slow changes, check it in a test. A tracker reminds. It does not police.</span></p>
+</section>
+<section class="chapter" id="lorebooks" data-search="lorebooks cards keywords entries">
+<div class="chapter-lead"><header class="chapter-open"><div class="titles"><p class="kicker">Chapter 04</p><h2>Lorebooks</h2></div><p class="index" aria-hidden="true">04</p></header><aside class="remark flip is-sm"><div class="roan-stage sm pose-point"><img src="art/roan-point.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="415" height="702"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">One subject per card. I will not grade a novel written on a flashcard.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside></div>
+<p>A lorebook is a set of extra reminder cards. When a keyword is used, the matching card can be added to what the model sees. Some cards can be set always-on, but those take space every turn, so use them for facts that must not drop, not for everything you ever thought of.</p>
+<p>A simple bot can live entirely in the model-visible box. Use a lorebook when the cast or place is getting large, or when a field is getting crowded. I will not tell you a fake character-limit number. If your site shows a limit, believe that site.</p>
+<p>How you upload or toggle entries is different on every platform. Use that platform’s help for the clicks. This chapter is about what to write on a card.</p>
+<h3>How a card is supposed to work</h3>
+<figure class="lore-flow" role="group" aria-label="Keyword to card to scene"><article class="lore-node"><div class="step">Step 1</div><h3>Keyword</h3><p>A specific name or phrase in the chat, such as &quot;South Dock&quot; or &quot;ten-fifteen.&quot; Avoid everyday words like &quot;window&quot; or &quot;rain&quot; as your only trigger.</p></article><article class="lore-node"><div class="step">Step 2</div><h3>The card</h3><p>A short, standalone entry about one subject. It should make sense even if no other card is loaded.</p></article><article class="lore-node"><div class="step">Step 3</div><h3>In the scene</h3><p>When the word comes up, the model can use those facts in the reply. If nobody mentions it, and the card is not always-on, it may stay out of the way.</p></article></figure>
+<h3>A plain example card</h3>
+<div class="copy-block" id="copy-lore"><div class="copy-head"><h3>Plain lorebook card</h3><button type="button" class="copy-btn screen-only" data-label="Copy">Copy</button></div><pre>Keywords: South Dock, ten-fifteen, last ferry
+
+The last listed ferry from South Dock leaves at 10:15 PM. After that, the ticket window stays open about thirty minutes for questions and refunds, then Paz locks the till. A backup boat is not automatically waiting in the fog. If a later crossing exists, it has to be on the printed schedule or be arranged by someone with that authority.</pre></div>
+<h3>Rules that keep cards useful</h3>
+<ul class="plain"><li>One subject per card. The last ferry is one subject. Paz’s whole childhood is not.</li><li>Each entry must stand alone. Do not write &#x27;as mentioned above&#x27; or depend on a card that may not be loaded.</li><li>Use specific names and unique phrases as keywords, not common words that will fire all the time.</li><li>Do not paste the entire character definition into a lorebook and also into the model-visible box. Pick a home for each fact.</li><li>Write facts and &quot;if this, then that&quot; possibilities. Do not write a script that decides the player’s choice.</li></ul>
+<p class="recap"><span>Short version</span><span>A lorebook card is a flashcard, not a second script. Specific keyword, one subject, stands alone.</span></p>
+</section>
+<section class="chapter" id="art-pages" data-search="art pages cover image html direct link">
+<div class="chapter-lead"><header class="chapter-open"><div class="titles"><p class="kicker">Chapter 05</p><h2>Art &amp; Pages</h2></div><p class="index" aria-hidden="true">05</p></header><aside class="remark is-sm"><div class="roan-stage sm pose-laptop"><img src="art/roan-laptop.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="456" height="515"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">If I cannot read the face at thumbnail size, neither can a shopper scrolling with one thumb.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside></div>
+<p>Your cover is the shop window. The page around it should help a tired person understand the bot quickly. This chapter stays general. I am not going to walk platform-by-platform code tricks.</p>
+<h3>Cover art</h3>
+<p>Show a clear face and mood. It has to stay readable when it is small.</p>
+<p>The person in the art should match the description you actually wrote. If Paz has short black hair and a faded green vest, do not upload a long blonde ballgown and hope.</p>
+<p>Check how your site crops the image on the list, the profile, and the chat. A pretty full-body shot can lose the face.</p>
+<p>Use art you made or have permission to use. Do not upload other people’s work, and do not use real-person photos as if they were your character.</p>
+<h3>If you are describing an image to a generator</h3>
+<p>Keep it ordinary and specific. Say gender if it matters, hair color and length, eye color, and the two or three traits that must be right. Put those first. Then pose, clothes, background, and light.</p>
+<p>Ask for one clear subject. Do not ask the image to contain a lot of readable text; that usually comes out wrong.</p>
+<p>This is general advice, not a special tagging formula for one generator.</p>
+<h3>A simple page, and direct links</h3>
+<p>Some sites let you add light HTML in a description or profile page. Support is not the same everywhere, and the code usually counts toward the same length limit as your text. Start smaller than you want to.</p>
+<p>A first page only needs: a title and tagline, the short public intro, one image, and a small list of who is in the story if that helps.</p>
+<p>Images need a hosted direct link: the address that opens the image file itself, not a gallery page, not a homepage, not a post that happens to include the picture. If you paste the wrong kind of link, the page cannot display it.</p>
+<p>Check the layout on a phone. If the type is tiny or the image overflows, simplify.</p>
+<p class="recap"><span>Short version</span><span>Clear face, matching description, permission to use the art, and a link that actually points at the file.</span></p>
+</section>
+<section class="chapter" id="publish-grow" data-search="publish grow rules tags feedback">
+<div class="chapter-lead"><header class="chapter-open"><div class="titles"><p class="kicker">Chapter 06</p><h2>Publish &amp; Grow</h2></div><p class="index" aria-hidden="true">06</p></header><aside class="remark flip is-sm"><div class="roan-stage sm pose-folded"><img src="art/roan-folded.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="355" height="692"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">I am not your lawyer. Read the site you are posting on. Adult characters only.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside></div>
+<p>Before you publish, read the current rules on the site you are using. They change, and they are not identical from place to place.</p>
+<h3>Rules you actually have to follow</h3>
+<p>All characters must be adults. If you cannot say the character is an adult, do not publish the bot.</p>
+<p>If the work is mature, romantic, violent, or otherwise sensitive, put it where that site wants that material, and use the warnings and tags the site provides. A label is information for the player. It does not guarantee the model will follow your taste or never refuse a request.</p>
+<p>Do not use real people’s photos, and do not copy someone else’s bot text or art and present it as yours.</p>
+<h3>Helping people find it</h3>
+<p>Use searchable words for the trope, the type of character, and the mood, plus a title that carries the twist.</p>
+<p>If you make more than one bot in the same world, say so in a consistent way, but do not require a new player to have read a hidden document.</p>
+<p>Seasonal or trending ideas are fine if you still have an original twist. A reskin of whatever is popular this week will blur into the pile.</p>
+<p>A consistent visual look helps people recognize your work. That can be as simple as a repeating frame, palette, or cover style — not a fake official brand.</p>
+<p>Talk to other creators if you want to. Collaboration is optional. Publishing regularly and fixing what you learn from tests is not optional if you want the bots to get better.</p>
+<h3>After it is live</h3>
+<p>Read the comments and the complaints. If several people trip on the same thing, fix the script and update the bot.</p>
+<p>Thank people who take time to write something useful. You do not have to take bad-faith bait.</p>
+<p>Keep a private note about what you changed and why. Future you will not remember.</p>
+<p class="recap"><span>Short version</span><span>Follow the real rules, label honestly, make the listing searchable, then revise from what actually broke.</span></p>
+</section>
+  <section class="closing" data-search="closing">
+    <p>That is the job. Write a clear script, put it in the box the model can read, open on a moment the player can answer, test it, and repair the text when it fails.</p>
+    <aside class="remark flip is-sm"><div class="roan-stage sm pose-folded"><img src="art/roan-folded.png" alt="Roan, RaonLee’s tired brother, looking unimpressed" width="355" height="692"></div><div class="speech"><p class="speech-who">Roan — helper, her brother</p><p class="speech-line">I am going to lie down now. If the bot starts writing the player again, you already know where to look.</p>
+<svg class="speech-tail tail-w" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M26 2 L4 12 L26 22 Z"></path></svg>
+<svg class="speech-tail tail-e" viewBox="0 0 28 24" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 2 L24 12 L2 22 Z"></path></svg>
+<svg class="speech-tail tail-n" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path fill="#eef6ef" stroke="#215c3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M2 26 L12 4 L22 26 Z"></path></svg>
+</div></aside>
+  </section>
+</div>
+<script>
+
+(function () {
+  function textOf(block) {
+    var pre = block.querySelector("pre");
+    return pre ? pre.innerText : "";
+  }
+  function mark(btn, ok) {
+    var prev = btn.getAttribute("data-label") || "Copy";
+    btn.textContent = ok ? "Copied" : "Select the text and copy";
+    btn.classList.toggle("copied", !!ok);
+    setTimeout(function () { btn.textContent = prev; btn.classList.remove("copied"); }, 1600);
+  }
+  function fallback(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  document.addEventListener("click", function (ev) {
+    var btn = ev.target.closest(".copy-btn");
+    if (!btn) return;
+    var block = btn.closest(".copy-block");
+    if (!block) return;
+    var text = textOf(block);
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { mark(btn, true); }).catch(function () {
+        mark(btn, fallback(text));
+      });
+    } else {
+      mark(btn, fallback(text));
+    }
+  });
+
+  var q = document.getElementById("q");
+  var empty = document.getElementById("search-empty");
+  if (q) {
+    q.addEventListener("input", function () {
+      var term = q.value.trim().toLowerCase();
+      var nodes = document.querySelectorAll("[data-search]");
+      var any = false;
+      nodes.forEach(function (el) {
+        if (!term) {
+          el.classList.remove("is-hidden");
+          any = true;
+          return;
+        }
+        var hit = (el.getAttribute("data-search") + " " + el.innerText).toLowerCase().indexOf(term) !== -1;
+        el.classList.toggle("is-hidden", !hit);
+        if (hit) any = true;
+      });
+      if (empty) empty.classList.toggle("show", !!term && !any);
+    });
+  }
+
+  var links = document.querySelectorAll(".topbar nav a[href^='#']");
+  if ("IntersectionObserver" in window && links.length) {
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute("href").slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (a) { a.removeAttribute("aria-current"); });
+        var a = map[en.target.id];
+        if (a) a.setAttribute("aria-current", "true");
+      });
+    }, { rootMargin: "-20% 0px -65% 0px", threshold: 0.01 });
+    document.querySelectorAll("section.chapter[id]").forEach(function (s) { io.observe(s); });
+  }
+})();
+
+</script>
+</body>
+</html>
