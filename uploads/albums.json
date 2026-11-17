@@ -1,7 +1,14 @@
 {
   "version": 1,
-  "selectedAlbumId": "a_3a727cf43638",
+  "selectedAlbumId": "a_2c9e3bdb15be",
   "albums": [
+    {
+      "id": "a_2c9e3bdb15be",
+      "name": "Nine lives",
+      "slug": "nine-lives",
+      "createdAt": "2026-11-17T06:51:39.962Z",
+      "updatedAt": "2026-11-17T06:51:39.962Z"
+    },
     {
       "id": "a_3a727cf43638",
       "name": "Cat",
