@@ -3,6 +3,13 @@
   "selectedAlbumId": "a_2c9e3bdb15be",
   "albums": [
     {
+      "id": "a_0acfdd604888",
+      "name": "Nine lives",
+      "slug": "nine-lives-2",
+      "createdAt": "2026-11-17T06:51:41.291Z",
+      "updatedAt": "2026-11-17T06:51:41.291Z"
+    },
+    {
       "id": "a_2c9e3bdb15be",
       "name": "Nine lives",
       "slug": "nine-lives",
