@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "selectedAlbumId": "a_3a727cf43638",
+  "albums": [
+    {
+      "id": "a_3a727cf43638",
+      "name": "Cat",
+      "slug": "cat",
+      "createdAt": "2026-11-17T06:42:00.522Z",
+      "updatedAt": "2026-11-17T06:42:00.522Z"
+    }
+  ]
+}
