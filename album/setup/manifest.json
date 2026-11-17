@@ -1,0 +1,22 @@
+{
+  "name": "RaonLee Images",
+  "url": "https://raonlee0448.github.io/album/",
+  "description": "Owner-only image uploader for raonlee0448.github.io. Writes only to the uploads/ folder.",
+  "public": false,
+  "redirect_url": "https://raonlee0448.github.io/album/setup/",
+  "callback_urls": [
+    "https://raonlee0448.github.io/album/"
+  ],
+  "setup_url": "https://raonlee0448.github.io/album/setup/?installed=1",
+  "hook_attributes": {
+    "url": "https://raonlee-image-uploader.raonlee0448.workers.dev/github/webhook",
+    "active": false
+  },
+  "request_oauth_on_install": true,
+  "default_events": [],
+  "default_permissions": {
+    "contents": "write",
+    "metadata": "read",
+    "pages": "read"
+  }
+}

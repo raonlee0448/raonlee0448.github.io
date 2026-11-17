@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>RaonLee Images</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to album</a>
+  <header class="top">
+    <div>
+      <p class="eyebrow">Private owner tool · not part of the public follower gallery</p>
+      <h1>RaonLee Images</h1>
+    </div>
+    <div class="top-right">
+      <span id="mode-pill" class="pill">…</span>
+      <div id="auth-actions" class="auth-actions"></div>
+    </div>
+  </header>
+
+  <div id="banner-local" class="banner local" hidden>
+    This is a <strong>local demo</strong> on this computer. Uploads and copied links work here only. They are not on GitHub Pages yet.
+  </div>
+  <div id="banner-setup" class="banner warn" hidden>
+    GitHub sign-in is not configured yet, so this page cannot upload to your public site. Open
+    <a href="setup/index.html">one-time setup</a> when you are ready. Do not paste a personal token.
+  </div>
+  <div id="github-blocked" class="banner warn" hidden>
+    Sign in as raonlee0448 to upload. Until then, nothing is written to GitHub.
+  </div>
+  <div id="banner-error" class="banner error" hidden></div>
+  <div id="toast" class="toast" hidden></div>
+
+  <section id="device-panel" class="device" hidden>
+    <h2>Finish signing in</h2>
+    <p>Open <a id="device-link" href="https://github.com/login/device" target="_blank" rel="noopener">github.com/login/device</a> and enter this code:</p>
+    <p id="device-code" class="user-code"></p>
+    <p class="muted">This window waits until you approve it. The sign-in token stays in this browser tab only.</p>
+  </section>
+
+  <div class="layout">
+    <aside class="albums" aria-label="Albums">
+      <h2>Albums</h2>
+      <p class="muted">Create and name albums to track your work. The selected album receives new uploads. Hiding an album here only collapses this screen — files on GitHub Pages stay reachable by their link.</p>
+      <form id="new-album-form" class="new-album">
+        <label for="new-album-name">New album name</label>
+        <div class="row">
+          <input id="new-album-name" name="name" maxlength="80" placeholder="e.g. a series, a commission, a moodboard" autocomplete="off">
+          <button class="btn" type="submit">Create</button>
+        </div>
+      </form>
+      <div id="album-list" class="album-list"></div>
+    </aside>
+
+    <main id="main">
+      <div id="empty-stage" class="empty-stage">
+        <h2>Start with an album name</h2>
+        <p>Type a name on the left (or above, on a phone). You can rename it later. The public folder name is generated separately so links stay tidy.</p>
+      </div>
+
+      <section id="album-stage" hidden>
+        <div class="album-head">
+          <div>
+            <h2 id="album-title"></h2>
+            <p id="album-slug-line" class="muted"></p>
+          </div>
+          <div class="row wrap">
+            <button type="button" class="btn ghost" id="btn-rename">Rename</button>
+            <button type="button" class="btn ghost" id="btn-collapse" aria-controls="album-body">Hide album</button>
+          </div>
+        </div>
+        <div id="album-body">
+          <label id="dropzone" class="dropzone" for="file-input">
+            <input id="file-input" type="file" accept="image/*" multiple>
+            <strong>Choose images</strong> or drop them here
+            <span id="drop-hint" class="muted">New images go into this album.</span>
+          </label>
+          <div id="grid" class="grid"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>This tool is not linked from the public follower page. Collapsing or leaving an album unlisted does not make images private.</p>
+  </footer>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
