@@ -15,4 +15,10 @@ export const CONFIG = {
   maxBytes: 25 * 1024 * 1024,
   pagesTimeoutMs: 180000,
   pagesPollMs: 3000,
+  watermark: {
+    opacity: 0.3,
+    credit: "© RaonLee",
+    notice: "AI generated image",
+  },
 };
+

@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip" href="#main">Skip to album</a>
+  <a class="skip" href="#main">Skip to albums</a>
   <header class="top">
     <div>
       <p class="eyebrow">Private owner tool · not part of the public follower gallery</p>
@@ -40,51 +40,61 @@
     <p class="muted">This window waits until you approve it. The sign-in token stays in this browser tab only.</p>
   </section>
 
-  <div class="layout">
-    <aside class="albums" aria-label="Albums">
+  <main id="main">
+    <section id="home-stage" class="home-stage">
       <h2>Albums</h2>
-      <p class="muted">Create and name albums to track your work. The selected album receives new uploads. Hiding an album here only collapses this screen — files on GitHub Pages stay reachable by their link.</p>
+      <p class="muted">This is your home screen. Open an album to choose images for it. Switching albums stays on this device and does not change your saved album list.</p>
       <form id="new-album-form" class="new-album">
         <label for="new-album-name">New album name</label>
         <div class="row">
           <input id="new-album-name" name="name" maxlength="80" placeholder="e.g. a series, a commission, a moodboard" autocomplete="off">
-          <button class="btn" type="submit">Create</button>
+          <button class="btn" type="submit" id="btn-create-album">Create album</button>
         </div>
       </form>
+      <div id="name-warning" class="banner warn name-warning" hidden></div>
       <div id="album-list" class="album-list"></div>
-    </aside>
+    </section>
 
-    <main id="main">
-      <div id="empty-stage" class="empty-stage">
-        <h2>Start with an album name</h2>
-        <p>Type a name on the left (or above, on a phone). You can rename it later. The public folder name is generated separately so links stay tidy.</p>
+    <section id="album-stage" hidden>
+      <div class="album-head">
+        <div>
+          <button type="button" class="btn ghost" id="btn-home">Back to albums</button>
+          <h2 id="album-title"></h2>
+          <p id="album-slug-line" class="muted"></p>
+        </div>
+        <div class="row wrap">
+          <button type="button" class="btn ghost" id="btn-rename">Rename</button>
+          <button type="button" class="btn ghost" id="btn-delete">Remove from album list</button>
+          <button type="button" class="btn ghost" id="btn-collapse" aria-controls="album-body">Hide album</button>
+        </div>
       </div>
+      <div id="album-body">
+        <label id="dropzone" class="dropzone" for="file-input">
+          <input id="file-input" type="file" accept="image/*" multiple>
+          <strong>Choose images</strong> or drop them here
+          <span id="drop-hint" class="muted">New images go into this album and are watermarked before upload.</span>
+        </label>
+        <p class="wm-note" id="wm-note">
+          New uploads automatically get a 30% Keyhole Heart watermark with <strong>© RaonLee</strong> and <strong>AI generated image</strong> baked into the pixels. You will see a watermarked preview first. This discourages casual copying; it does not stop someone from downloading or editing the file. Images already in this album are left unchanged.
+        </p>
+        <div id="grid" class="grid"></div>
+      </div>
+    </section>
+  </main>
 
-      <section id="album-stage" hidden>
-        <div class="album-head">
-          <div>
-            <h2 id="album-title"></h2>
-            <p id="album-slug-line" class="muted"></p>
-          </div>
-          <div class="row wrap">
-            <button type="button" class="btn ghost" id="btn-rename">Rename</button>
-            <button type="button" class="btn ghost" id="btn-collapse" aria-controls="album-body">Hide album</button>
-          </div>
-        </div>
-        <div id="album-body">
-          <label id="dropzone" class="dropzone" for="file-input">
-            <input id="file-input" type="file" accept="image/*" multiple>
-            <strong>Choose images</strong> or drop them here
-            <span id="drop-hint" class="muted">New images go into this album.</span>
-          </label>
-          <div id="grid" class="grid"></div>
-        </div>
-      </section>
-    </main>
+  <div id="confirm-dialog" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <h2 id="confirm-title">Remove this album from your list?</h2>
+      <p id="confirm-body" class="muted"></p>
+      <div class="row wrap">
+        <button type="button" class="btn ghost" id="confirm-cancel">Cancel</button>
+        <button type="button" class="btn" id="confirm-ok">Remove from list</button>
+      </div>
+    </div>
   </div>
 
   <footer>
-    <p>This tool is not linked from the public follower page. Collapsing or leaving an album unlisted does not make images private.</p>
+    <p>This tool is not linked from the public follower page. Removing an album from this list, or collapsing it, does not delete files or make links private.</p>
   </footer>
   <script type="module" src="js/app.js"></script>
 </body>

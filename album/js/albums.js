@@ -119,3 +119,68 @@ export function isImageFile(file) {
   if (file.type && file.type.startsWith("image/")) return true;
   return /\.(png|jpe?g|gif|webp|svg|bmp|avif|heic|heif)$/i.test(file.name || "");
 }
+
+export function normalizeName(name) {
+  return String(name || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+}
+
+export function findAlbumsByNormalizedName(albums, name) {
+  const key = normalizeName(name);
+  if (!key) return [];
+  return (albums || []).filter((a) => normalizeName(a.name) === key);
+}
+
+/** Remove an album from the list only. Does not delete hosted files or change slugs of remaining albums. */
+export function removeAlbumFromCatalog(catalog, id) {
+  const albums = (catalog.albums || []).filter((a) => a.id !== id);
+  return {
+    ...catalog,
+    albums,
+    selectedAlbumId: catalog.selectedAlbumId === id ? null : catalog.selectedAlbumId,
+  };
+}
+
+/**
+ * Union catalogs by album id. Never drops an album unless it is in removedIds.
+ * Does not merge different ids that share a display name. Slugs stay as already stored.
+ */
+export function mergeCatalogs(remote, local, { removedIds = [] } = {}) {
+  const removed = new Set(removedIds || []);
+  const byId = new Map();
+  const remoteList = remote && Array.isArray(remote.albums) ? remote.albums : [];
+  const localList = local && Array.isArray(local.albums) ? local.albums : [];
+  for (const a of [...remoteList, ...localList]) {
+    if (!a || typeof a !== "object" || !a.id || removed.has(a.id)) continue;
+    const prev = byId.get(a.id);
+    if (!prev) {
+      byId.set(a.id, { ...a, id: String(a.id), name: String(a.name || "").trim(), slug: String(a.slug || "") });
+      continue;
+    }
+    const newer = String(a.updatedAt || "") > String(prev.updatedAt || "") ? a : prev;
+    const older = newer === a ? prev : a;
+    byId.set(a.id, {
+      id: prev.id,
+      name: String((newer.name || prev.name || "")).trim(),
+      slug: String(prev.slug || a.slug || ""),
+      createdAt: older.createdAt || newer.createdAt,
+      updatedAt: newer.updatedAt || older.updatedAt,
+    });
+  }
+  const albums = [...byId.values()].filter((a) => a.name && a.slug);
+  albums.sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")) || String(a.id).localeCompare(String(b.id)));
+  const ids = new Set(albums.map((a) => a.id));
+  const localSel = local && local.selectedAlbumId;
+  const remoteSel = remote && remote.selectedAlbumId;
+  const selectedAlbumId = ids.has(localSel) ? localSel : (ids.has(remoteSel) ? remoteSel : null);
+  return { version: 1, selectedAlbumId, albums };
+}
+
+export function isShaConflictMessage(message) {
+  const msg = String(message || "");
+  return /does not match/i.test(msg) || /sha.*mismatch/i.test(msg) || (/conflict/i.test(msg) && /sha|albums\.json/i.test(msg));
+}

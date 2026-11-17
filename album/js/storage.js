@@ -1,6 +1,6 @@
 import { CONFIG } from "../config.js";
 import { loadSession } from "./auth.js";
-import { emptyCatalog, normalizeCatalog, safeFileName } from "./albums.js";
+import { emptyCatalog, normalizeCatalog, safeFileName, mergeCatalogs, isShaConflictMessage } from "./albums.js";
 
 const API = "https://api.github.com";
 const HEADERS = {
@@ -104,6 +104,55 @@ export async function pagesApiStatus() {
   }
 }
 
+
+export async function saveCatalogWithRetry({ load, put, catalog, removedIds = [], attempts = 6 }) {
+  let lastErr = null;
+  for (let i = 0; i < attempts; i++) {
+    const current = await load();
+    const merged = mergeCatalogs(current, catalog, { removedIds });
+    try {
+      const result = await put(merged, current && current._sha);
+      if (result && (result.sha || result.content?.sha)) merged._sha = result.content?.sha || result.sha;
+      else if (current && current._sha) merged._sha = current._sha;
+      return merged;
+    } catch (err) {
+      lastErr = err;
+      if (isShaConflictMessage(err.message) && i < attempts - 1) {
+        await new Promise((r) => setTimeout(r, 80 * (i + 1)));
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw lastErr || new Error("Could not save the album list.");
+}
+
+async function saveGithubCatalog(catalog, opts = {}) {
+  const session = loadSession();
+  if (!session?.token) throw new Error("Sign in with GitHub first.");
+  return saveCatalogWithRetry({
+    catalog,
+    removedIds: opts.removedIds || [],
+    load: () => githubStore.loadCatalog(),
+    put: async (merged, sha) => {
+      const body = {
+        message: "Update image album list",
+        content: btoa(unescape(encodeURIComponent(JSON.stringify({
+          version: 1,
+          selectedAlbumId: merged.selectedAlbumId,
+          albums: merged.albums,
+        }, null, 2)))),
+        branch: CONFIG.branch,
+      };
+      if (sha) body.sha = sha;
+      return api(`/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.metadataPath}`, {
+        method: "PUT",
+        body: JSON.stringify(body),
+      });
+    },
+  });
+}
+
 export const githubStore = {
   kind: "github",
   label: "GitHub Pages",
@@ -122,24 +171,11 @@ export const githubStore = {
       throw err;
     }
   },
-  async saveCatalog(catalog) {
-    const session = loadSession();
-    if (!session?.token) throw new Error("Sign in with GitHub first.");
-    const current = await this.loadCatalog();
-    const body = {
-      message: "Update image album list",
-      content: btoa(unescape(encodeURIComponent(JSON.stringify({
-        version: 1,
-        selectedAlbumId: catalog.selectedAlbumId,
-        albums: catalog.albums,
-      }, null, 2)))),
-      branch: CONFIG.branch,
-    };
-    if (current._sha) body.sha = current._sha;
-    await api(`/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.metadataPath}`, {
-      method: "PUT",
-      body: JSON.stringify(body),
-    });
+  _saveQueue: Promise.resolve(),
+  saveCatalog(catalog, opts = {}) {
+    const run = () => saveGithubCatalog(catalog, opts);
+    this._saveQueue = this._saveQueue.then(run, run);
+    return this._saveQueue;
   },
   async listImages(album) {
     const path = `/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.uploadsPrefix}/${album.slug}?ref=${encodeURIComponent(CONFIG.branch)}`;
@@ -208,17 +244,20 @@ export const localStore = {
     if (!res.ok) throw new Error("Could not read local albums.");
     return normalizeCatalog(await res.json());
   },
-  async saveCatalog(catalog) {
+  async saveCatalog(catalog, opts = {}) {
+    const current = await this.loadCatalog();
+    const merged = mergeCatalogs(current, catalog, { removedIds: opts.removedIds || [] });
     const res = await fetch("/local/albums", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         version: 1,
-        selectedAlbumId: catalog.selectedAlbumId,
-        albums: catalog.albums,
+        selectedAlbumId: merged.selectedAlbumId,
+        albums: merged.albums,
       }),
     });
     if (!res.ok) throw new Error("Could not save local albums.");
+    return merged;
   },
   async listImages(album) {
     const res = await fetch(`/local/albums/${encodeURIComponent(album.id)}/images`, { cache: "no-store" });

@@ -1,10 +1,14 @@
 import { CONFIG } from "../config.js";
-import { createAlbum, renameAlbum, upsertAlbum, selectAlbum, isImageFile } from "./albums.js";
+import {
+  createAlbum, renameAlbum, upsertAlbum, selectAlbum, isImageFile,
+  findAlbumsByNormalizedName, removeAlbumFromCatalog, normalizeName,
+} from "./albums.js";
 import {
   loadSession, clearSession, githubReady, loadRemoteConfig, startWebLogin, completeWebLogin,
   startDeviceLogin, pollDeviceLogin, signOut,
 } from "./auth.js";
 import { detectMode, githubStore, localStore } from "./storage.js";
+import { watermarkFile } from "./watermark.js";
 
 const UI_KEY = "raonlee-images-ui-v1";
 
@@ -13,13 +17,20 @@ const state = {
   store: githubStore,
   session: null,
   catalog: { version: 1, selectedAlbumId: null, albums: [] },
+  view: "home",
   images: [],
+  imagesAlbumId: null,
   pending: [],
   collapsed: {},
   busy: false,
+  creating: false,
   error: "",
   device: null,
+  nameWarning: null,
+  confirm: null,
 };
+
+let imagesGen = 0;
 
 function loadUi() {
   try {
@@ -29,13 +40,19 @@ function loadUi() {
 }
 
 function saveUi() {
-  localStorage.setItem(UI_KEY, JSON.stringify({ collapsed: state.collapsed }));
+  const selectedAlbumId = state.catalog.selectedAlbumId || null;
+  localStorage.setItem(UI_KEY, JSON.stringify({
+    collapsed: state.collapsed,
+    selectedAlbumId,
+    view: state.view,
+  }));
 }
 
 function $(sel) { return document.querySelector(sel); }
 function el(id) { return document.getElementById(id); }
 
 function selectedAlbum() {
+  if (state.view !== "album") return null;
   return state.catalog.albums.find((a) => a.id === state.catalog.selectedAlbumId) || null;
 }
 
@@ -62,8 +79,15 @@ function setError(msg) {
 
 async function refreshImages() {
   const album = selectedAlbum();
-  if (!album) { state.images = []; return; }
-  state.images = await state.store.listImages(album);
+  const gen = ++imagesGen;
+  const albumId = album?.id || null;
+  state.images = [];
+  state.imagesAlbumId = albumId;
+  if (!album) return;
+  const items = await state.store.listImages(album);
+  if (gen !== imagesGen || state.catalog.selectedAlbumId !== albumId || state.view !== "album") return;
+  state.images = items;
+  state.imagesAlbumId = albumId;
 }
 
 function render() {
@@ -82,22 +106,30 @@ function render() {
   el("banner-setup").hidden = local || githubReady() || Boolean(state.session);
   el("github-blocked").hidden = local || Boolean(state.session);
 
+  const createBtn = el("btn-create-album");
+  if (createBtn) {
+    createBtn.disabled = state.creating;
+    createBtn.textContent = state.creating ? "Creating…" : "Create album";
+  }
+
+  renderNameWarning();
+
   const list = el("album-list");
   if (!state.catalog.albums.length) {
     list.innerHTML = `<p class="empty-albums">No albums yet. Name one to start tracking a set of images.</p>`;
   } else {
     list.innerHTML = state.catalog.albums.map((a) => `
-      <button type="button" class="album-chip ${a.id === state.catalog.selectedAlbumId ? "is-selected" : ""}" data-album="${a.id}">
+      <button type="button" class="album-chip ${state.view === "album" && a.id === state.catalog.selectedAlbumId ? "is-selected" : ""}" data-album="${a.id}">
         <span class="album-name">${escapeHtml(a.name)}</span>
         <span class="album-slug">/${escapeHtml(a.slug)}</span>
       </button>
     `).join("");
   }
 
-  const hasAlbum = Boolean(album);
-  el("album-stage").hidden = !hasAlbum;
-  el("empty-stage").hidden = hasAlbum;
-  if (album) {
+  const showAlbum = state.view === "album" && Boolean(album);
+  el("album-stage").hidden = !showAlbum;
+  el("home-stage").hidden = showAlbum;
+  if (showAlbum) {
     el("album-title").textContent = album.name;
     el("album-slug-line").textContent = `Folder: uploads/${album.slug}/  ·  Display name stays “${album.name}”`;
     const collapsed = isCollapsed(album.id);
@@ -108,16 +140,58 @@ function render() {
     el("dropzone").classList.toggle("is-disabled", !canUpload);
     el("file-input").disabled = !canUpload;
     el("drop-hint").textContent = canUpload
-      ? "New images go into this album."
+      ? "New images go into this album and are watermarked before upload."
       : "Sign in to upload into this album.";
+    renderGrid();
   }
 
-  renderGrid();
+  renderConfirm();
+}
+
+function renderNameWarning() {
+  const box = el("name-warning");
+  const warning = state.nameWarning;
+  if (!warning || !warning.matches?.length) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
+  }
+  const items = warning.matches.map((a) => `
+    <button type="button" class="btn ghost" data-open-existing="${escapeHtml(a.id)}">
+      Open “${escapeHtml(a.name)}” /${escapeHtml(a.slug)}
+    </button>
+  `).join("");
+  box.hidden = false;
+  box.innerHTML = `
+    <p>An album named “${escapeHtml(warning.name)}” already exists. Open the existing one instead of creating another copy.</p>
+    <div class="row wrap">${items}
+      <button type="button" class="btn ghost" id="btn-create-anyway">Create a new album anyway</button>
+    </div>
+  `;
+}
+
+function renderConfirm() {
+  const dialog = el("confirm-dialog");
+  if (!state.confirm) {
+    dialog.hidden = true;
+    return;
+  }
+  el("confirm-title").textContent = state.confirm.title;
+  el("confirm-body").textContent = state.confirm.body;
+  el("confirm-ok").textContent = state.confirm.okLabel || "Confirm";
+  dialog.hidden = false;
 }
 
 function renderGrid() {
   const grid = el("grid");
-  const combined = [...state.pending, ...state.images.filter((img) => !state.pending.some((p) => p.url === img.url || p.fileName === img.name))];
+  if (!grid) return;
+  const album = selectedAlbum();
+  const albumId = album?.id;
+  const pending = state.pending.filter((p) => p.albumId === albumId);
+  const images = (state.imagesAlbumId === albumId ? state.images : []).filter((img) => {
+    return !pending.some((p) => p.url === img.url || p.fileName === img.name);
+  });
+  const combined = [...pending, ...images];
   if (!combined.length) {
     grid.innerHTML = `<p class="empty-grid">Nothing in this album yet. Add images when you are ready.</p>`;
     return;
@@ -137,7 +211,9 @@ function cardHtml(item) {
       <div class="card-body">
         <div class="file-name">${escapeHtml(item.fileName || item.name || "image")}</div>
         <div class="status-line">${escapeHtml(label)}</div>
-        ${status === "uploading" || status === "encoding" ? `<div class="bar"><span style="width:${pct}%"></span></div>` : ""}
+        ${item.watermarked ? `<div class="wm-badge">Watermarked preview · 30%</div>` : ""}
+        ${item.metaNote ? `<div class="meta-note">${escapeHtml(item.metaNote)}</div>` : ""}
+        ${status === "uploading" || status === "encoding" || status === "watermarking" ? `<div class="bar"><span style="width:${pct}%"></span></div>` : ""}
         <button type="button" class="btn slim copy" data-copy="${escapeHtml(item.url || "")}" ${canCopy ? "" : "disabled"}>
           ${canCopy ? "Copy direct link" : "Link waits until it is live"}
         </button>
@@ -147,7 +223,8 @@ function cardHtml(item) {
 }
 
 function statusLabel(item, status, pct) {
-  if (status === "encoding") return "Preparing…";
+  if (status === "encoding" || status === "watermarking") return "Adding watermark…";
+  if (status === "ready") return "Watermarked preview. Uploading the marked file next…";
   if (status === "uploading") return `Uploading ${pct}%`;
   if (status === "committed") return "Saved. Waiting for the public link…";
   if (status === "waiting-pages") {
@@ -165,37 +242,95 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-async function persistCatalog() {
-  await state.store.saveCatalog(state.catalog);
+async function persistCatalog(opts = {}) {
+  const saved = await state.store.saveCatalog(state.catalog, opts);
+  if (saved && Array.isArray(saved.albums)) {
+    const keep = state.catalog.selectedAlbumId;
+    state.catalog = {
+      ...saved,
+      selectedAlbumId: saved.albums.some((a) => a.id === keep) ? keep : (saved.selectedAlbumId || null),
+    };
+  }
+}
+
+async function createAlbumRecord(name, { force = false } = {}) {
+  const trimmed = String(name || "").trim();
+  if (!force) {
+    const matches = findAlbumsByNormalizedName(state.catalog.albums, trimmed);
+    if (matches.length) {
+      state.nameWarning = { name: trimmed, matches, raw: trimmed };
+      render();
+      return null;
+    }
+  }
+  const album = createAlbum(trimmed, state.catalog.albums);
+  state.catalog = upsertAlbum(state.catalog, album, true);
+  await persistCatalog();
+  state.nameWarning = null;
+  return album;
 }
 
 async function onCreateAlbum(ev) {
   ev.preventDefault();
+  if (state.creating) return;
   const input = el("new-album-name");
+  state.creating = true;
+  render();
   try {
-    const album = createAlbum(input.value, state.catalog.albums);
-    state.catalog = upsertAlbum(state.catalog, album, true);
-    await persistCatalog();
+    const album = await createAlbumRecord(input.value, { force: false });
+    if (!album) return;
     input.value = "";
-    await refreshImages();
+    await openAlbum(album.id);
     setError("");
-    render();
     toast(`Album “${album.name}” is ready. Uploads will go here.`);
   } catch (err) {
     setError(err.message);
+  } finally {
+    state.creating = false;
+    render();
   }
 }
 
-async function onSelectAlbum(id) {
+async function onCreateAnyway() {
+  if (state.creating || !state.nameWarning) return;
+  const name = state.nameWarning.raw;
+  state.creating = true;
+  render();
   try {
-    state.catalog = selectAlbum(state.catalog, id);
-    await persistCatalog();
-    await refreshImages();
+    const album = await createAlbumRecord(name, { force: true });
+    if (!album) return;
+    el("new-album-name").value = "";
+    await openAlbum(album.id);
     setError("");
+    toast(`Created another album named “${album.name}” as /${album.slug}.`);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    state.creating = false;
     render();
+  }
+}
+
+async function openAlbum(id) {
+  // Local UI only — never writes albums.json.
+  state.catalog = selectAlbum(state.catalog, id);
+  state.view = "album";
+  saveUi();
+  setError("");
+  render();
+  try {
+    await refreshImages();
   } catch (err) {
     setError(err.message);
   }
+  render();
+}
+
+function goHome() {
+  state.view = "home";
+  saveUi();
+  setError("");
+  render();
 }
 
 async function onRename() {
@@ -213,6 +348,46 @@ async function onRename() {
   }
 }
 
+function onDeleteAsk() {
+  const album = selectedAlbum();
+  if (!album) return;
+  state.confirm = {
+    action: "remove-album",
+    albumId: album.id,
+    title: `Remove “${album.name}” from your album list?`,
+    body: `This only removes “${album.name}” (/${album.slug}) from the list in this tool. Files already on your site and their direct links stay as they are. This does not delete the images.`,
+    okLabel: "Remove from list",
+  };
+  render();
+}
+
+async function onDeleteConfirm() {
+  const confirm = state.confirm;
+  if (!confirm || confirm.action !== "remove-album") {
+    state.confirm = null;
+    render();
+    return;
+  }
+  const id = confirm.albumId;
+  const album = state.catalog.albums.find((a) => a.id === id);
+  try {
+    state.catalog = removeAlbumFromCatalog(state.catalog, id);
+    await persistCatalog({ removedIds: [id] });
+    state.confirm = null;
+    state.view = "home";
+    saveUi();
+    setError("");
+    toast(album
+      ? `“${album.name}” is off your list. Existing files and links were left as they are.`
+      : "That album is off your list. Existing files and links were left as they are.");
+    render();
+  } catch (err) {
+    setError(err.message);
+    state.confirm = null;
+    render();
+  }
+}
+
 function toggleCollapse() {
   const album = selectedAlbum();
   if (!album) return;
@@ -224,7 +399,7 @@ function toggleCollapse() {
 function addFiles(fileList) {
   const album = selectedAlbum();
   if (!album) {
-    setError("Create or select an album first. Uploads always go into the album you have selected.");
+    setError("Open an album first. Uploads always go into the album you have open.");
     return;
   }
   if (state.mode === "github" && !state.session) {
@@ -248,17 +423,59 @@ function addFiles(fileList) {
       progress: 0,
       url: "",
       file,
+      albumId: album.id,
+      albumSlug: album.slug,
+      albumName: album.name,
     });
   }
   render();
   pumpUploads();
 }
 
+function albumForPending(item) {
+  return state.catalog.albums.find((a) => a.id === item.albumId) || null;
+}
+
 async function pumpUploads() {
-  const album = selectedAlbum();
-  if (!album || state.busy) return;
-  const next = state.pending.find((p) => p.status === "encoding" && p.file);
+  if (state.busy) return;
+
+  const toMark = state.pending.find((p) => p.status === "encoding" && p.file);
+  if (toMark) {
+    state.busy = true;
+    toMark.status = "watermarking";
+    render();
+    try {
+      const prepared = await watermarkFile(toMark.file);
+      if (toMark.thumb) URL.revokeObjectURL(toMark.thumb);
+      toMark.thumb = prepared.previewUrl;
+      toMark.file = prepared.file;
+      toMark.fileName = prepared.file.name;
+      toMark.watermarked = true;
+      toMark.metaNote = prepared.note || "";
+      toMark.status = "ready";
+    } catch (err) {
+      toMark.status = "failed";
+      toMark.error = err.message || "Could not watermark this image.";
+      toMark.file = null;
+    }
+    render();
+    state.busy = false;
+    await new Promise((r) => setTimeout(r, 450));
+    pumpUploads();
+    return;
+  }
+
+  const next = state.pending.find((p) => p.status === "ready" && p.file);
   if (!next) return;
+  const album = albumForPending(next);
+  if (!album) {
+    next.status = "failed";
+    next.error = "The album this upload was started in is no longer in your list. The file was not uploaded, and hosted files were left as they are.";
+    next.file = null;
+    render();
+    pumpUploads();
+    return;
+  }
   state.busy = true;
   next.status = "uploading";
   render();
@@ -326,9 +543,10 @@ async function onSignIn() {
 
 async function afterSignIn() {
   state.catalog = await state.store.loadCatalog();
-  await refreshImages();
+  state.view = "home";
+  saveUi();
   render();
-  toast("Signed in. Your albums can sync across devices once they are saved.");
+  toast("Signed in. Open an album to upload, or create a new one.");
 }
 
 async function init() {
@@ -356,11 +574,11 @@ async function init() {
   try {
     if (state.mode === "local" || state.session) {
       state.catalog = await state.store.loadCatalog();
-      await refreshImages();
     }
   } catch (err) {
     setError(err.message);
   }
+  state.view = "home";
   render();
 }
 
@@ -368,10 +586,30 @@ document.addEventListener("DOMContentLoaded", () => {
   el("new-album-form").addEventListener("submit", onCreateAlbum);
   el("album-list").addEventListener("click", (ev) => {
     const btn = ev.target.closest("[data-album]");
-    if (btn) onSelectAlbum(btn.dataset.album);
+    if (btn) openAlbum(btn.dataset.album);
   });
+  el("name-warning").addEventListener("click", (ev) => {
+    const open = ev.target.closest("[data-open-existing]");
+    if (open) {
+      state.nameWarning = null;
+      el("new-album-name").value = "";
+      openAlbum(open.dataset.openExisting);
+      return;
+    }
+    if (ev.target.id === "btn-create-anyway") onCreateAnyway();
+  });
+  el("btn-home").addEventListener("click", goHome);
   el("btn-collapse").addEventListener("click", toggleCollapse);
   el("btn-rename").addEventListener("click", onRename);
+  el("btn-delete").addEventListener("click", onDeleteAsk);
+  el("confirm-cancel").addEventListener("click", () => { state.confirm = null; render(); });
+  el("confirm-ok").addEventListener("click", onDeleteConfirm);
+  el("confirm-dialog").addEventListener("click", (ev) => {
+    if (ev.target.id === "confirm-dialog") { state.confirm = null; render(); }
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape" && state.confirm) { state.confirm = null; render(); }
+  });
   el("auth-actions").addEventListener("click", (ev) => {
     if (ev.target.id === "btn-signin") onSignIn();
     if (ev.target.id === "btn-signout") { signOut(); state.session = null; clearSession(); render(); }

@@ -81,3 +81,37 @@ input[type="text"], input:not([type]), input[type="search"] {
 .empty-stage, .empty-albums, .empty-grid { color: var(--muted); }
 footer { margin-top: 28px; color: var(--muted); font-size: 12px; }
 a { color: var(--accent-2); }
+
+.wm-note { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: #141117; border: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.45; }
+.wm-note strong { color: var(--ink); font-weight: 600; }
+.wm-badge { display: inline-block; margin-top: 6px; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--accent-2); }
+.meta-note { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+.status-watermarking .status-line, .status-encoding .status-line, .status-ready .status-line { color: var(--accent-2); }
+@media (max-width: 859px) {
+  body { padding: 12px 12px 40px; }
+  .wm-note { font-size: 12px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .dropzone { padding: 22px 12px; }
+}
+
+main { max-width: 980px; }
+.home-stage, #album-stage { background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 16px; }
+.home-stage h2 { margin-bottom: 6px; }
+.new-album { margin: 16px 0; }
+.album-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 14px; }
+.album-chip { text-align: left; background: #141117; color: var(--ink); border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px; cursor: pointer; }
+.album-chip.is-selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+#btn-home { margin-bottom: 10px; }
+#btn-delete { border-color: #5a3030; }
+.btn[disabled], #btn-create-album[disabled] { opacity: .45; cursor: not-allowed; }
+.name-warning { margin: 0 0 12px; }
+.name-warning .row { margin-top: 10px; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; z-index: 40; padding: 16px; }
+.modal[hidden] { display: none; }
+.modal-card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 18px; max-width: 440px; width: 100%; }
+.modal-card h2 { margin-bottom: 8px; font-size: 1.15rem; }
+.modal-card .row { margin-top: 16px; justify-content: flex-end; }
+@media (max-width: 859px) {
+  .album-list { grid-template-columns: 1fr; }
+  .album-head { flex-direction: column; }
+}
